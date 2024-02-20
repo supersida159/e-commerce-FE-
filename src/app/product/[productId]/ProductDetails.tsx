@@ -1,16 +1,55 @@
-import { Rating } from "@mui/material";
+'use client';
 
-`user client`;
+import SetColor from "@/app/components/products/SetColor";
+import { Rating } from "@mui/material";
+import exp from "constants";
+import { useState, useCallback } from "react";
+
+
 interface ProductDeralsProps{
     product: any
 }
 
+export type CardProductType = {
+    id: string
+    name: string
+    brand: string
+    category: string
+    description: string
+    selectedImg: string
+    quantity: number
+    price: number
+}
+
+export type SelectedImgType = {
+    color: string
+    colorCode: string
+    image: string
+
+}
 const Horizontal =() => {
     return <hr className="w-[30% my-2]"/>
 }
 
 const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
+    
+    const [cartProduct,setCardProduct] = useState<CardProductType>(
+        {
+        id: product.id,
+        name: product.name,
+        brand: product.brand,
+        category: product.category,
+        description: product.description,
+        selectedImg: {...product.images[0]},
+        quantity: 1,
+        price: product.price
+        
+        }
+      )
+
     const productRating = product.reviews.reduce((acc: number, review: any) => acc + review.rating, 0)/product.reviews.length
+    const handleColorSelect = useCallback((value: SelectedImgType) => { }, 
+        [cartProduct.selectedImg]);
     return ( 
         <div className="grid grid=cols-1 md:grid-cols-2 gap-12">
             <div>Images</div>
@@ -36,6 +75,11 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
                     <div className={product.inStock ? "text-green-500" : "text-red-500"}>{product.inStock ? "In Stock" : "Out of Stock"}</div>
                     <Horizontal/>
                     <div>COLOR</div>
+                    <SetColor 
+                    cartProduct={cartProduct}
+                    images={product.images} 
+                    handleColorSelect= {handleColorSelect}                 
+                    />
                     <Horizontal/>
                     <div>QUANTITY</div>
                     <Horizontal/>
@@ -46,3 +90,4 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
 }
  
 export default ProductDetails;
+
