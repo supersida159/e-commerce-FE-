@@ -11,14 +11,14 @@ interface ProductDeralsProps{
 }
 
 export type CardProductType = {
-    id: string
-    name: string
-    brand: string
-    category: string
-    description: string
-    selectedImg: string
-    quantity: number
-    price: number
+    id: string,
+    name: string,
+    brand: string,
+    category: string,
+    description: string,
+    selectedImg: SelectedImgType,
+    quantity: number,
+    price: number,
 }
 
 export type SelectedImgType = {
@@ -48,7 +48,12 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
       )
 
     const productRating = product.reviews.reduce((acc: number, review: any) => acc + review.rating, 0)/product.reviews.length
-    const handleColorSelect = useCallback((value: SelectedImgType) => { }, 
+    const handleColorSelect = useCallback((value: SelectedImgType) => { 
+        setCardProduct((prev) => ({
+            ...prev,
+            selectedImg: value
+        }))
+    }, 
         [cartProduct.selectedImg]);
     return ( 
         <div className="grid grid=cols-1 md:grid-cols-2 gap-12">
