@@ -16,7 +16,7 @@ export type CardProductType = {
     brand: string
     category: string
     description: string
-    selectedImg: string
+    selectedImg: SelectedImgType
     quantity: number
     price: number
 }
@@ -48,7 +48,12 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
       )
 
     const productRating = product.reviews.reduce((acc: number, review: any) => acc + review.rating, 0)/product.reviews.length
-    const handleColorSelect = useCallback((value: SelectedImgType) => { }, 
+    const handleColorSelect = useCallback((value: SelectedImgType) => {
+        setCardProduct((prev) => ({
+            ...prev,
+            SelectedImgType: value
+        }))
+     }, 
         [cartProduct.selectedImg]);
     return ( 
         <div className="grid grid=cols-1 md:grid-cols-2 gap-12">
@@ -74,7 +79,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
                     </div>
                     <div className={product.inStock ? "text-green-500" : "text-red-500"}>{product.inStock ? "In Stock" : "Out of Stock"}</div>
                     <Horizontal/>
-                    <div>COLOR</div>
+                    {/* <div>COLOR</div> */}
                     <SetColor 
                     cartProduct={cartProduct}
                     images={product.images} 
@@ -84,7 +89,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
                     <div>QUANTITY</div>
                     <Horizontal/>
                     <div>ADD TO CART</div>
-            </div>
+            </div>a
         </div>
      );
 }
