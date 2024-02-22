@@ -1,6 +1,7 @@
 'use client';
 
 import SetColor from "@/app/components/products/SetColor";
+import SetQuantity from "@/app/components/products/SetQuantity";
 import { Rating } from "@mui/material";
 import exp from "constants";
 import { useState, useCallback } from "react";
@@ -11,14 +12,15 @@ interface ProductDeralsProps{
 }
 
 export type CardProductType = {
-    id: string
-    name: string
-    brand: string
-    category: string
-    description: string
-    selectedImg: SelectedImgType
-    quantity: number
-    price: number
+
+    id: string,
+    name: string,
+    brand: string,
+    category: string,
+    description: string,
+    selectedImg: SelectedImgType,
+    quantity: number,
+    price: number,
 }
 
 export type SelectedImgType = {
@@ -48,13 +50,31 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
       )
 
     const productRating = product.reviews.reduce((acc: number, review: any) => acc + review.rating, 0)/product.reviews.length
+
     const handleColorSelect = useCallback((value: SelectedImgType) => {
         setCardProduct((prev) => ({
             ...prev,
             SelectedImgType: value
         }))
      }, 
+
+
         [cartProduct.selectedImg]);
+
+        const handleQtyIncrease = useCallback(() => {
+            
+            setCardProduct((prev) => ({
+                ...prev,
+                quantity: prev.quantity + 1
+            }))
+        },[cartProduct])
+        const handleQtyDecrease = useCallback(() => {
+            if (cartProduct.quantity === 1 ) return
+            setCardProduct((prev) => ({
+                ...prev,
+                quantity: prev.quantity - 1
+            }))
+        },[cartProduct])
     return ( 
         <div className="grid grid=cols-1 md:grid-cols-2 gap-12">
             <div>Images</div>
@@ -86,7 +106,11 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
                     handleColorSelect= {handleColorSelect}                 
                     />
                     <Horizontal/>
-                    <div>QUANTITY</div>
+                    <SetQuantity
+                    cartProduct={cartProduct}
+                    handleQtyDecrease={ handleQtyDecrease} 
+                    handleQtyIncrease={ handleQtyIncrease}
+                    />
                     <Horizontal/>
                     <div>ADD TO CART</div>
             </div>a
