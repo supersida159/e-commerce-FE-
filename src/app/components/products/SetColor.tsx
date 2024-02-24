@@ -14,7 +14,6 @@ const SetColor: React.FC<SetColorProps> = ({images, cartProduct, handleColorSele
         <div className="flex gap-4 items-center">
             <span className="font-semibold">Color : </span>
             <div className="flex gap-1">{images.map((image) =>{
-                console.log("image", image)
                 return (
                     <div 
                     key={image.color}

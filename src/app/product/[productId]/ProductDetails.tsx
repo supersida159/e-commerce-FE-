@@ -35,7 +35,7 @@ const Horizontal =() => {
 }
 
 const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
-    const { handleAddProductToCart, cartTotalQty } = useCart()
+    const { handleAddProductToCart, cartProducts } = useCart()
     const [cartProduct,setCardProduct] = useState<CartProductType>(
         {
         id: product.id,
@@ -49,7 +49,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
         
         }
       )
-        console.log("cartProduct", cartProduct)
+        console.log("cartProducts", cartProducts)
     const productRating = product.reviews.reduce((acc: number, review: any) => acc + review.rating, 0)/product.reviews.length
     const handleColorSelect = useCallback((value: SelectedImgType) => { 
         setCardProduct((prev) => ({
@@ -116,6 +116,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
                     <Horizontal/>
                     <div className="max-w-80	">
                         <Button
+
                         label="Add to Cart"
                         onClick={() => handleAddProductToCart(cartProduct)}
                         />
