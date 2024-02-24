@@ -49,30 +49,35 @@ const ProductDetails: React.FC<ProductDeralsProps> = ( {product}) => {
         
         }
       )
-        console.log("cartProducts", cartProducts)
+        
     const productRating = product.reviews.reduce((acc: number, review: any) => acc + review.rating, 0)/product.reviews.length
     const handleColorSelect = useCallback((value: SelectedImgType) => { 
+        if (value === cartProduct.selectedImg) {
+            // Color hasn't changed, do nothing
+            return;
+          }
         setCardProduct((prev) => ({
             ...prev,
-            selectedImg: value
+            selectedImg: value,
+            quantity: 1
+
         }))
     }, 
         [cartProduct.selectedImg]);
 
         const handleQtyIncrease = useCallback(() => {
-            
             setCardProduct((prev) => ({
                 ...prev,
                 quantity: prev.quantity + 1
             }))
-        },[cartProduct])
+        },[])
         const handleQtyDecrease = useCallback(() => {
             if (cartProduct.quantity === 1 ) return
             setCardProduct((prev) => ({
                 ...prev,
                 quantity: prev.quantity - 1
             }))
-        },[cartProduct])
+        },[])
     return ( 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <ProductImage
