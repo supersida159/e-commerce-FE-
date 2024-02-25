@@ -1,8 +1,8 @@
+import CartClients from "./CartClients"
+
 const Cart = () => {
     return ( 
-        <div>
-            Cart Page
-        </div>
+        <CartClients/>
      );
 }
  

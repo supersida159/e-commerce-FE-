@@ -1,5 +1,6 @@
 import { CartProductType } from "@/app/product/[productId]/ProductDetails";
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 type CartContextType = {
     cartTotalQty: number,
@@ -12,33 +13,50 @@ export const CartContext = createContext<CartContextType | null>(null)
 interface Props {
     [propName: string]: any;
 }
-export const CartContextProvider = (props:Props) => {
+
+export const CartContextProvider = (props: Props) => {
     const [cartTotalQty, setCartTotalQty] = useState(0);
     const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(null);
+
+    useEffect(() => {
+        const cartItems: any = localStorage.getItem("eShopCartItems");
+        const cProducts: CartProductType[] | null = JSON.parse(cartItems)
+        setCartProducts(cProducts)
+        console.log("cProducts:", cProducts)
+    }, [])
+
     const handleAddProductToCart = useCallback((product: CartProductType) => {
+        let updateCart;
         setCartProducts((prev) => {
             let updateCart;
-
-            if(prev){
+            if (prev) {
                 updateCart = [...prev, product]
-            }else{
+            } else {
                 updateCart = [product]
             }
+            if (updateCart) {
+
+                toast.success(`Added Items To Cart`);
+                localStorage.setItem("eShopCartItems", JSON.stringify(updateCart));
+            }
+            console.log("Done Func")
+
             return updateCart
         })
+
     }, [])
     const value = {
         cartTotalQty,
         cartProducts,
         handleAddProductToCart
     }
-    return<CartContext.Provider value={value} {...props}/>
+    return <CartContext.Provider value={value} {...props} />
 }
 
 
 export const useCart = () => {
     const context = useContext(CartContext)
-    if( context=== null){
+    if (context === null) {
         throw new Error("useCart must be used within a CartContextProvider")
     }
     return context;
