@@ -78,7 +78,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
         }));
     },
         [cartProduct.selectedImg]);
-    
+
     const handleQtyIncrease = useCallback(() => {
         setCardProduct((prev) => ({
             ...prev,
@@ -126,9 +126,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
                         <p className="flex items-center gap-2"><MdCheckCircle className="text-teal-300" size={20} />
                             <span>Product Added to Cart</span>
                         </p>
-                        <div className="max-w-[300px]
-                            
-                            
+                        <div className="max-w-[300px] 
                             ">
                             <Button
                                 label="View Cart"
@@ -161,7 +159,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
                         <div className="max-w-80	">
                             <Button
                                 label="Add to Cart"
-                                onClick={() =>(console.log("clicked"),handleAddProductToCart(cartProduct))}
+                                onClick={() => (console.log("clicked"), handleAddProductToCart(cartProduct))}
                             />
                         </div>
                     </>

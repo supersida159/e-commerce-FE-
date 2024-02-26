@@ -1,15 +1,17 @@
+import SetQuantity from "@/app/components/products/SetQuantity";
 import { CartProductType } from "@/app/product/[productId]/ProductDetails";
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 type CartContextType = {
     cartTotalQty: number,
-    cartProducts: CartProductType[] | null
-    cartTotalAmount: number
+    cartProducts: CartProductType[] | null,
+    cartTotalAmount: number,
     handleAddProductToCart: (product: CartProductType) => void
     handleRemoveProductFromCart: (product: CartProductType) => void
     handleClearCart: () => void
-    handleCartQtyChange: (product: CartProductType, qty: number) => void
+    handleCartQtyIncrease: (product: CartProductType) => void
+    handleCartQtyDecrease: (product: CartProductType) => void
 };
 
 export const CartContext = createContext<CartContextType | null>(null)
@@ -20,6 +22,7 @@ interface Props {
 
 export const CartContextProvider = (props: Props) => {
     const [cartTotalQty, setCartTotalQty] = useState(0);
+    
     const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(null);
     const [cartTotalAmount, setCartTotalAmount] = useState(0);
 
@@ -28,7 +31,6 @@ export const CartContextProvider = (props: Props) => {
         const cProducts: CartProductType[] | null = JSON.parse(cartItems)
 
         setCartProducts(cProducts)
-        setCartTotalAmount
     }, [])
 
     const handleAddProductToCart = useCallback((product: CartProductType) => {
@@ -69,37 +71,88 @@ export const CartContextProvider = (props: Props) => {
         toast.success(`Cleared Items To Cart`);
     }, [cartProducts])
 
-    const cartTotalAmout = useCallback(() => {
-        if (cartProducts) {
 
-        }
-    }, [cartProducts])
-    const handleCartQtyChange = useCallback((product: CartProductType, qty: number) => {
+    const handleCartQtyIncrease = useCallback((product: CartProductType) => {
         let updateCart;
-
-        if (product.quantity !== qty) {
+        console.log("handleCartQtyIncrease: 1")
+        if (cartProducts) {
             updateCart = { ...cartProducts }
-            if (cartProducts) {
-                const existingIndex = cartProducts.findIndex(
-                    (item) => item.id === product.id
-                )
-                if (existingIndex > -1) {
-                    updateCart[existingIndex].quantity = qty
-                }
+            const existingIndex = cartProducts.findIndex(
+                (item) => item.id === product.id
+            )
+            console.log("handleCartQtyIncrease: 2")
+
+            if (existingIndex > -1) {
+                console.log("handleCartQtyIncrease: 3")
+
+                updateCart[existingIndex].quantity += 1
+
+                setCartProducts(Array.isArray(updateCart) ? updateCart : [updateCart])
             }
         }
-      
 
-        
+    }, [cartProducts])
+    const handleCartQtyDecrease = useCallback((product: CartProductType) => {
+        let updateCart;
+        if (cartProducts) {
+            updateCart = { ...cartProducts }
+            const existingIndex = cartProducts.findIndex(
+                (item) => item.id === product.id
+            )
+
+            if (existingIndex > -1) {
+
+                updateCart[existingIndex].quantity -= 1
+
+                setCartProducts(Array.isArray(updateCart) ? updateCart : [updateCart])
+            }
+        }
+
+    }, [cartProducts])
+
+    useEffect(() => {
+        // if (cartProducts) {
+        //     setCartTotalAmount(cartProducts.reduce((acc: number, product: CartProductType) => acc + product.quantity * product.price, 0))
+        //     setCartTotalQty(cartProducts.reduce((acc: number, product: CartProductType) => acc + product.quantity, 0))
+        // }
+        const getTotals = () => {
+            console.log("getTotals: 1")
+            console.log("isArray:", Array.isArray(cartProducts))
+            console.log("type cartProducts:", (typeof cartProducts))
+            console.log("cartProducts:", cartProducts)
+            if (cartProducts) {
+
+                const { total, qty } = cartProducts.reduce((acc: any, item: any) => {
+                    const itemTotal = item.price * item.quantity
+                    console.log("getTotals: 2")
+                    acc.total += itemTotal
+                    acc.qty += item.quantity
+
+
+                    return acc
+                },
+                    {
+                        total: 0,
+                        qty: 0
+                    }
+                )
+                console.log("getTotals: 3")
+                setCartTotalAmount(total)
+                setCartTotalQty(qty)
+            }
+        }
+        getTotals()
+
     }, [cartProducts])
     const value = {
         cartTotalQty,
         cartProducts,
-        cartTotalAmout,
+        cartTotalAmount,
         handleAddProductToCart,
         handleRemoveProductFromCart,
         handleClearCart,
-        handleCartQtyChange
+        handleCartQtyIncrease,
+        handleCartQtyDecrease
     }
     return <CartContext.Provider value={value} {...props} />
 }

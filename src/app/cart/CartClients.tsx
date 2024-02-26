@@ -7,7 +7,7 @@ import CartItem from "./CartItem";
 import Button from "../components/products/button";
 
 const CartClients = () => {
-    const { cartProducts, handleClearCart } = useCart();
+    const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
     if (!cartProducts || cartProducts.length === 0) {
         return (
             <div className="flex flex-col items-center">
@@ -19,21 +19,27 @@ const CartClients = () => {
                     </a>
                 </div>
             </div>
-        );
+        )
+            ;
     } else {
         return (
             <div className="flex flex-col max-w-[1920px] mx-auto xl:px-20 md:px-4 px-4">
                 <Heading titlle="shopping Cart" center />
                 <div className="grid grid-cols-5 mt-8">
                     <div className="col-span-2 justify-start">Product</div>
-                    <div>Price</div>
-                    <div>Quantity</div>
-                    <div>Total</div>
+                    <div className="">Price</div>
+                    <div className="justify-self-center">Quantity</div>
+                    <div className="justify-self-end">Total</div>
                 </div>
                 <div>
-                    {cartProducts.map((items) => (
-                        <CartItem cartProduct={items} />
-                    ))}
+                    {Array.isArray(cartProducts) ? (
+                        cartProducts.map((item) => (
+                            <CartItem key={item.id} cartProduct={item} />
+                        ))
+                    ) : (
+                        // Handle cases where cartProducts is not an array (e.g., display message, redirect)
+                        <div>Cart items not available</div>
+                    )}
                 </div>
                 <div className="flex mt-3 justify-between">
                     <div>
