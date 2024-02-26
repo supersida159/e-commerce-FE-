@@ -1,17 +1,23 @@
 import Container from "@/app/components/nav/Container"
 import ProductDetails from "@/app/product/[productId]/ProductDetails"
-import { product } from "../../../../utils/product"
+import { products } from "../../../../utils/products"
 interface IParams {
     productId: string
 }
-const Product = ({params}:{params: IParams}) => {
-    return ( 
+const Product = ({ params }: { params: IParams }) => {
+    return (
         <div>
-            <Container>
-                <ProductDetails product={product}/>
-            </Container>
+            <div>
+                {products.map((product: any) => {
+                    if (product.id === params.productId){
+                        return <ProductDetails product={product}/>
+                    }
+                    
+                }
+                )}
+            </div>
         </div>
-     );
+    );
 }
- 
+
 export default Product;

@@ -5,6 +5,7 @@ import { MdArrowBack } from "react-icons/md";
 import Heading from "../components/Heading/heading";
 import CartItem from "./CartItem";
 import Button from "../components/products/button";
+import formatPrice from "../../../utils/formatPrice";
 
 const CartClients = () => {
     const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
@@ -48,7 +49,7 @@ const CartClients = () => {
                     <div>
                         <div className="justify-between flex items-center mb-2 text-2xl font-semibold">
                             <span className="">Subtotal</span>
-                            <div className="">Total</div>
+                            <div className="">{formatPrice(cartTotalAmount)}</div>
                         </div>
                         <div className="">Taxes and shipping calculated at checkout</div>
                         <div>

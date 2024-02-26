@@ -74,20 +74,18 @@ export const CartContextProvider = (props: Props) => {
 
     const handleCartQtyIncrease = useCallback((product: CartProductType) => {
         let updateCart;
-        console.log("handleCartQtyIncrease: 1")
         if (cartProducts) {
-            updateCart = { ...cartProducts }
+            updateCart =  [...cartProducts] 
             const existingIndex = cartProducts.findIndex(
                 (item) => item.id === product.id
             )
-            console.log("handleCartQtyIncrease: 2")
 
             if (existingIndex > -1) {
-                console.log("handleCartQtyIncrease: 3")
 
                 updateCart[existingIndex].quantity += 1
 
                 setCartProducts(updateCart)
+                localStorage.setItem("eShopCartItems", JSON.stringify(updateCart))
             }
         }
 
@@ -95,16 +93,17 @@ export const CartContextProvider = (props: Props) => {
     const handleCartQtyDecrease = useCallback((product: CartProductType) => {
         let updateCart;
         if (cartProducts) {
-            updateCart = { ...cartProducts }
+            updateCart =  [...cartProducts] 
             const existingIndex = cartProducts.findIndex(
                 (item) => item.id === product.id
             )
 
             if (existingIndex > -1) {
 
-                updateCart[existingIndex].quantity -= 1
-
+                updateCart[existingIndex].quantity = --updateCart[existingIndex].quantity
+                
                 setCartProducts(updateCart)
+                localStorage.setItem("eShopCartItems", JSON.stringify(updateCart))
             }
         }
 
@@ -116,15 +115,11 @@ export const CartContextProvider = (props: Props) => {
         //     setCartTotalQty(cartProducts.reduce((acc: number, product: CartProductType) => acc + product.quantity, 0))
         // }
         const getTotals = () => {
-            console.log("getTotals: 1")
-            console.log("isArray:", Array.isArray(cartProducts))
-            console.log("type cartProducts:", (typeof cartProducts))
-            console.log("cartProducts:", cartProducts)
+
             if (cartProducts) {
 
                 const { total, qty } = cartProducts.reduce((acc: any, item: any) => {
                     const itemTotal = item.price * item.quantity
-                    console.log("getTotals: 2")
                     acc.total += itemTotal
                     acc.qty += item.quantity
 
@@ -136,7 +131,6 @@ export const CartContextProvider = (props: Props) => {
                         qty: 0
                     }
                 )
-                console.log("getTotals: 3")
                 setCartTotalAmount(total)
                 setCartTotalQty(qty)
             }

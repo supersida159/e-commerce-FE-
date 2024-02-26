@@ -11,34 +11,35 @@ interface CartItemProps {
     cartProduct: CartProductType
 }
 
-const CartItem: React.FC<CartItemProps> = ({ cartProduct }) => {
+const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
     const btcStyles = 'border-[1.2px] border-slate-300 px-2 rounded cursor-pointer'
     const { handleRemoveProductFromCart,handleCartQtyDecrease,handleCartQtyIncrease } = useCart();
 
     return (
         <div className="grid grid-cols-5 ">
             <div className="flex gap-2 md:gap-4 col-span-2 justify-items-start ">
-                <a href={`product/${cartProduct.id}`}>
+                <a href={`product/${item.id}`}>
                     <div className="relative w-[70px] aspect-square ">
-                        <img src={cartProduct.selectedImg.image} alt={cartProduct.name} />
+                        <img src={item.selectedImg.image} alt={item.name} />
                     </div>
                 </a>
                 <div className="flex flex-col gap-1">
-                    <a href={`product/${cartProduct.id}`}> {truncateText(cartProduct.name)}</a>
-                    <div>{cartProduct.selectedImg.color}</div>
+                    <a href={`product/${item.id}`}> {truncateText(item.name)}</a>
+                    <div>{item.selectedImg.color}</div>
                     <div className="w-[70px]">
-                        <button className="text-slate-500 underline" onClick={() => handleRemoveProductFromCart(cartProduct)}>Remove</button>
+                        <button className="text-slate-500 underline" onClick={() => handleRemoveProductFromCart(item)}>Remove</button>
                     </div>
                 </div>
             </div>
-            <div>{formatPrice(cartProduct.price)}</div>
-            <div>
+            <div className="flex items-center justify-center">{formatPrice(item.price)}</div>
+            <div className="flex items-center justify-center ">
                 <SetQuantity 
                 cartCounter={true}
-                cartProduct={cartProduct} 
-                handleQtyIncrease={() => handleCartQtyIncrease(cartProduct)} 
-                handleQtyDecrease={() => handleCartQtyDecrease(cartProduct)}/>
+                cartProduct={item} 
+                handleQtyIncrease={() => handleCartQtyIncrease(item)} 
+                handleQtyDecrease={() => handleCartQtyDecrease(item)}/>
             </div>
+            <div className="flex items-center justify-end">{formatPrice(item.price*item.quantity)}</div>
 
         </div>
     );
