@@ -87,7 +87,7 @@ export const CartContextProvider = (props: Props) => {
 
                 updateCart[existingIndex].quantity += 1
 
-                setCartProducts(Array.isArray(updateCart) ? updateCart : [updateCart])
+                setCartProducts(updateCart)
             }
         }
 
@@ -104,7 +104,7 @@ export const CartContextProvider = (props: Props) => {
 
                 updateCart[existingIndex].quantity -= 1
 
-                setCartProducts(Array.isArray(updateCart) ? updateCart : [updateCart])
+                setCartProducts(updateCart)
             }
         }
 
