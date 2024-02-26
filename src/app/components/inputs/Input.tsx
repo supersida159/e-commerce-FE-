@@ -21,17 +21,17 @@ const Input: React.FC<InputProps> = ({
     required,
     register,
     errors
-    
+
 }) => {
     return (
         <div className="w-full relative">
-            <input 
-            id={id}
-            disabled={disabled}
-            {...register(id, { required })}
-            type={type}
-            placeholder=""
-            className={`
+            <input
+                id={id}
+                disabled={disabled}
+                {...register(id, { required })}
+                type={type}
+                placeholder=""
+                className={`
             peer
             w-full
             p-4
@@ -46,12 +46,12 @@ const Input: React.FC<InputProps> = ({
             disabled:cursor-not-allowed
             ${errors[id] ? 'border-rose-500' : 'border-slate-300'}
             ${errors[id] ? 'focus:border-rose-500' : 'focus:border-slate-500'}`
-        }
-            
-            
+                }
+
+
             />
             <label htmlFor={id}
-            className={`
+                className={`
             absolute
             cursor-text
             text-md
