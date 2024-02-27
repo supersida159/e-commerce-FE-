@@ -7,9 +7,7 @@ import Button from "../components/products/button";
 import Link from "next/link";
 import { AiOutlineGoogle } from "react-icons/ai";
 
-
-const RegisterForm
- = () => {
+const LoginForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const {register,handleSubmit,formState:{errors}} =useForm<FieldValues>({
         defaultValues:{
@@ -26,28 +24,27 @@ const RegisterForm
 
     return ( 
         <>
-        <Heading titlle="Sign Up For E-shop" />
+        <Heading titlle="Login For E-shop" />
         <Button
         outline
-        label="Sign Up with Google"
+        label="Login with Google"
         icon={AiOutlineGoogle}
         onClick={() => {}}
         />
         <hr  className="bg-slate-300 w-full h-px"/>
-        <Input id="email" label="Email" register={register} errors={errors} required type="email"/>
+        
         <Input id="name" label="Name" register={register} errors={errors} required />
         <Input id="password" label="Password" register={register} errors={errors} required type="password" />
         <Button 
-        label={isLoading ? "Loading..." : "Sign Up"}
+        label={isLoading ? "Loading..." : "Login"}
         disabled={isLoading} 
         onClick={handleSubmit(onSubmit)} />
         <p>
-            Already have an account?
-            <Link className="text-blue-300 underline" href="/login">  Login</Link>
+            Don't have an account?
+            <Link className="text-blue-300 underline" href="/Register">  Register</Link>
         </p>
         </>
      );
 }
- 
-export default RegisterForm
-;
+
+export default LoginForm
