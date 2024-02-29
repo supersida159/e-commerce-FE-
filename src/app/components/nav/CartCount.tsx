@@ -1,40 +1,40 @@
-'use client'
-import { useCart } from "@/hooks/useCart"
-import { useRouter } from "next/navigation";
-import { CiShoppingCart } from "react-icons/ci";
+'use client';
+import { useCart } from '@/hooks/useCart';
+import { useRouter } from 'next/navigation';
+import { CiShoppingCart } from 'react-icons/ci';
 
 const CartCount = () => {
-    const { cartTotalQty } = useCart()
-    const router = useRouter();
+  const { cartTotalQty } = useCart();
+  const router = useRouter();
 
-    return (
-        <div className="relative cursor-pointer"
-        onClick={()=>router.push("/cart")}
-        >
-            <div className="text-3xl">
-                <CiShoppingCart/>
-            </div>
-            <span className={` absolute
-            top-[-10px]
+  return (
+    <div
+      className="relative cursor-pointer"
+      onClick={() => router.push('/cart')}
+    >
+      <div className="text-3xl">
+        <CiShoppingCart />
+      </div>
+      <span
+        className={` absolute
             right-[-10px]
-            bg-slate-600
-            text-white
-            rounded-full
+            top-[-10px]
+            flex
             h-6
             w-6
-            flex
             items-center
             justify-center
+            rounded-full
+            bg-slate-600
             text-sm
-            ${cartTotalQty > 0 ? "inline-block" : "hidden"}
+            text-white
+            ${cartTotalQty > 0 ? 'inline-block' : 'hidden'}
             `}
-            >
-                {cartTotalQty}
-            </span>
+      >
+        {cartTotalQty}
+      </span>
+    </div>
+  );
+};
 
-        </div>
-    )
-}
-
-
-export default CartCount
+export default CartCount;

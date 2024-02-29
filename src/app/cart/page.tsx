@@ -1,9 +1,7 @@
-import CartClients from "./CartClients"
+import CartClients from './CartClients';
 
 const Cart = () => {
-    return ( 
-        <CartClients/>
-     );
-}
- 
+  return <CartClients />;
+};
+
 export default Cart;

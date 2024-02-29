@@ -1,77 +1,74 @@
-'use client'
+'use client';
 
-import { FieldValues, UseFormRegister, FieldErrors } from "react-hook-form";
+import { FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 
 interface InputProps {
-    id: string
-    label: string
-    type?: string
-    disabled?: boolean
-    required?: boolean
-    register: UseFormRegister<FieldValues>
-    errors: FieldErrors
-
+  id: string;
+  label: string;
+  type?: string;
+  disabled?: boolean;
+  required?: boolean;
+  register: UseFormRegister<FieldValues>;
+  errors: FieldErrors;
 }
 
 const Input: React.FC<InputProps> = ({
-    id,
-    label,
-    type,
-    disabled,
-    required,
-    register,
-    errors
-
+  id,
+  label,
+  type,
+  disabled,
+  required,
+  register,
+  errors,
 }) => {
-    return (
-        <div className="w-full relative">
-            <input
-                id={id}
-                disabled={disabled}
-                {...register(id, { required })}
-                type={type}
-                placeholder=""
-                className={`
+  return (
+    <div className="relative w-full">
+      <input
+        id={id}
+        disabled={disabled}
+        {...register(id, { required })}
+        type={type}
+        placeholder=""
+        className={`
+            by-white
             peer
             w-full
+            rounded-md
+            border-2
             p-4
             pt-6
-            outline-none
-            by-white
             font-light
-            border-2
-            rounded-md
+            outline-none
             transition
-            disabled:opacity-70
             disabled:cursor-not-allowed
+            disabled:opacity-70
             ${errors[id] ? 'border-rose-500' : 'border-slate-300'}
-            ${errors[id] ? 'focus:border-rose-500' : 'focus:border-slate-500'}`
-                }
-
-
-            />
-            <label htmlFor={id}
-                className={`
-            absolute
-            cursor-text
+            ${errors[id] ? 'focus:border-rose-500' : 'focus:border-slate-500'}`}
+      />
+      <label
+        htmlFor={id}
+        className={`
             text-md
-            duration-150
-            transform
-            -translate-y-3
+            absolute
+            left-4
             top-5
             z-10
             origin-[0]
-            left-4
-            peer-placeholder-shown:scale-100
+            -translate-y-3
+            transform
+            cursor-text
+            duration-150
             peer-placeholder-shown:translate-y-0
-            peer-focus:scale-75
+            peer-placeholder-shown:scale-100
             peer-focus:-translate-y-4
+            peer-focus:scale-75
 
             `}
-            >{label}</label>
-        </div>
-    )
-}
-
+      >
+        {label}
+      </label>
+    </div>
+  );
+};
 
 export default Input;
