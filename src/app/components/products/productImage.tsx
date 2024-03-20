@@ -2,7 +2,7 @@
 
 import {
   CartProductType,
-  SelectedImgType,
+  SelectedImgType
 } from '@/app/product/[productId]/ProductDetails';
 import Image from 'next/image';
 
@@ -14,7 +14,7 @@ interface ProductImageProps {
 const ProductImage: React.FC<ProductImageProps> = ({
   cartProduct,
   product,
-  handleColorSelect,
+  handleColorSelect
 }) => {
   return (
     <div

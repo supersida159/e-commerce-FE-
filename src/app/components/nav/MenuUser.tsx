@@ -1,9 +1,10 @@
 'use client';
 
+import { useUser } from '@/lib/hooks/useUser';
 import { Avatar } from '@mui/material';
 import Link from 'next/link';
 import { useCallback, useState } from 'react';
-import { AiFillCaretDown } from 'react-icons/ai';
+import { AiOutlineDown } from 'react-icons/ai';
 import Backdrop from './BackDrop';
 import MenuItem from './MenuItem';
 const MenuUser = () => {
@@ -11,6 +12,7 @@ const MenuUser = () => {
   const toggle = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
+  const { user } = useUser();
 
   return (
     <>
@@ -29,8 +31,16 @@ const MenuUser = () => {
             hover:shadow-sm
             "
         >
-          <Avatar sx={{ width: 30, height: 30 }} />
-          <AiFillCaretDown />
+          {user ? (
+            <Avatar
+              src={user.avatar.url}
+              alt="avatar"
+              sx={{ width: 30, height: 30 }}
+            />
+          ) : (
+            <Avatar sx={{ width: 30, height: 30 }} />
+          )}
+          <AiOutlineDown />
         </div>
         {isOpen && (
           <div
@@ -48,10 +58,10 @@ const MenuUser = () => {
                 shadow-md"
           >
             <div>
-              <Link href="orders">
+              <Link href="/orders">
                 <MenuItem onClick={toggle}>Your Order</MenuItem>
               </Link>
-              <Link href="profile">
+              <Link href="/profile">
                 <MenuItem onClick={toggle}>Your Profile</MenuItem>
               </Link>
               <MenuItem
@@ -64,10 +74,10 @@ const MenuUser = () => {
               </MenuItem>
             </div>
             <div>
-              <Link href="login">
+              <Link href="/login">
                 <MenuItem onClick={toggle}>Login</MenuItem>
               </Link>
-              <Link href="register">
+              <Link href="/register">
                 <MenuItem onClick={toggle}>Register</MenuItem>
               </Link>
             </div>

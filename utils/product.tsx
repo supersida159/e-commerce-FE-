@@ -6,24 +6,24 @@ export const product = {
   price: 40,
   brand: 'Apple',
   category: 'Phone',
-  inStock: true,
+  active: true,
   images: [
     {
       color: 'Black',
       colorCode: '#000000',
-      image: 'https://m.media-amazon.com/images/I/61g+McQpg7L._AC_SX679_.jpg',
+      image: 'https://m.media-amazon.com/images/I/61g+McQpg7L._AC_SX679_.jpg'
     },
     {
       color: 'Blue',
       colorCode: ' #0000FF',
-      image: 'https://m.media-amazon.com/images/I/713Om9vCHUL._AC_SX679_.jpg',
+      image: 'https://m.media-amazon.com/images/I/713Om9vCHUL._AC_SX679_.jpg'
     },
     {
       color: 'Red',
       colorCode: '#FF0000',
       image:
-        'https://m.media-amazon.com/images/I/61thdjmfHcL.__AC_SX300_SY300_QL70_FMwebp_.jpg',
-    },
+        'https://m.media-amazon.com/images/I/61thdjmfHcL.__AC_SX300_SY300_QL70_FMwebp_.jpg'
+    }
   ],
   reviews: [
     {
@@ -44,8 +44,8 @@ export const product = {
         hashedPassword: null,
         createdAt: '2023-06-26T15:40:52.558Z',
         updatedAt: '2023-06-26T15:40:52.558Z',
-        role: 'USER',
-      },
+        role: 'USER'
+      }
     },
     {
       id: '6499a110efe4e4de451c7edc',
@@ -64,8 +64,8 @@ export const product = {
         hashedPassword: null,
         createdAt: '2023-05-30T08:08:53.979Z',
         updatedAt: '2023-05-30T08:08:53.979Z',
-        role: 'ADMIN',
-      },
-    },
-  ],
+        role: 'ADMIN'
+      }
+    }
+  ]
 };

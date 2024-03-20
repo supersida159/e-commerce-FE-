@@ -2,7 +2,7 @@
 
 import {
   CartProductType,
-  SelectedImgType,
+  SelectedImgType
 } from '@/app/product/[productId]/ProductDetails';
 
 interface SetColorProps {
@@ -13,7 +13,7 @@ interface SetColorProps {
 const SetColor: React.FC<SetColorProps> = ({
   images,
   cartProduct,
-  handleColorSelect,
+  handleColorSelect
 }) => {
   return (
     <div>

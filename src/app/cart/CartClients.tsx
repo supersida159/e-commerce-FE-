@@ -1,11 +1,11 @@
 'use client';
 
-import { useCart } from '@/hooks/useCart';
+import { useCart } from '@/lib/hooks/useCart';
 import { MdArrowBack } from 'react-icons/md';
-import Heading from '../components/Heading/heading';
-import CartItem from './CartItem';
-import Button from '../components/products/button';
 import formatPrice from '../../../utils/formatPrice';
+import Heading from '../components/Heading/heading';
+import Button from '../components/products/button';
+import CartItem from './CartItem';
 
 const CartClients = () => {
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();

@@ -4,10 +4,10 @@ import SetColor from '@/app/components/products/SetColor';
 import SetQuantity from '@/app/components/products/SetQuantity';
 import Button from '@/app/components/products/button';
 import ProductImage from '@/app/components/products/productImage';
-import { useCart } from '@/hooks/useCart';
+import { useCart } from '@/lib/hooks/useCart';
 import { Rating } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
 
 interface ProductDeralsProps {
@@ -46,7 +46,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
     description: product.description,
     selectedImg: { ...product.images[0] },
     quantity: 1,
-    price: product.price,
+    price: product.price
   });
   useEffect(() => {
     setIsProductInCart(false);
@@ -73,7 +73,7 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
       setCardProduct((prev) => ({
         ...prev,
         selectedImg: value,
-        quantity: 1,
+        quantity: 1
       }));
     },
     [cartProduct.selectedImg]
@@ -82,14 +82,14 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
   const handleQtyIncrease = useCallback(() => {
     setCardProduct((prev) => ({
       ...prev,
-      quantity: prev.quantity + 1,
+      quantity: prev.quantity + 1
     }));
   }, [cartProduct]);
   const handleQtyDecrease = useCallback(() => {
     if (cartProduct.quantity === 1) return;
     setCardProduct((prev) => ({
       ...prev,
-      quantity: prev.quantity - 1,
+      quantity: prev.quantity - 1
     }));
   }, [cartProduct]);
 
@@ -117,8 +117,8 @@ const ProductDetails: React.FC<ProductDeralsProps> = ({ product }) => {
           <span className="font-semibold ">Brand : </span>
           {product.brand}
         </div>
-        <div className={product.inStock ? 'text-green-500' : 'text-red-500'}>
-          {product.inStock ? 'In Stock' : 'Out of Stock'}
+        <div className={product.active ? 'text-green-500' : 'text-red-500'}>
+          {product.active ? 'In Stock' : 'Out of Stock'}
         </div>
         <Horizontal />
         {isProductInCart ? (

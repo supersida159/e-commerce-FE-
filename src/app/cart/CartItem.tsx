@@ -1,11 +1,10 @@
 'use client';
 
-import { truncate } from 'fs';
-import { CartProductType } from '../product/[productId]/ProductDetails';
-import { truncateText } from '../../../utils/truncateText';
+import { useCart } from '@/lib/hooks/useCart';
 import formatPrice from '../../../utils/formatPrice';
-import { useCart } from '@/hooks/useCart';
+import { truncateText } from '../../../utils/truncateText';
 import SetQuantity from '../components/products/SetQuantity';
+import { CartProductType } from '../product/[productId]/ProductDetails';
 
 interface CartItemProps {
   cartProduct: CartProductType;
@@ -17,7 +16,7 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
   const {
     handleRemoveProductFromCart,
     handleCartQtyDecrease,
-    handleCartQtyIncrease,
+    handleCartQtyIncrease
   } = useCart();
 
   return (

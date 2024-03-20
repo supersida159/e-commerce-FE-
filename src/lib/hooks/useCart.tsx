@@ -1,10 +1,12 @@
+import { getUserInfor } from '@/api/fetch';
 import { CartProductType } from '@/app/product/[productId]/ProductDetails';
+import { getCookie, getCookies } from 'cookies-next';
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
-  useState,
+  useState
 } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -122,6 +124,7 @@ export const CartContextProvider = (props: Props) => {
     },
     [cartProducts]
   );
+ 
 
   useEffect(() => {
     // if (cartProducts) {
@@ -140,7 +143,7 @@ export const CartContextProvider = (props: Props) => {
           },
           {
             total: 0,
-            qty: 0,
+            qty: 0
           }
         );
         setCartTotalAmount(total);
@@ -157,7 +160,7 @@ export const CartContextProvider = (props: Props) => {
     handleRemoveProductFromCart,
     handleClearCart,
     handleCartQtyIncrease,
-    handleCartQtyDecrease,
+    handleCartQtyDecrease
   };
   return <CartContext.Provider value={value} {...props} />;
 };
