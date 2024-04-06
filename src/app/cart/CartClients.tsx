@@ -34,7 +34,7 @@ const CartClients = () => {
         <div>
           {Array.isArray(cartProducts) ? (
             cartProducts.map((item) => (
-              <CartItem key={item.id} cartProduct={item} />
+              <CartItem key={item.product.id} cartProduct={item} />
             ))
           ) : (
             // Handle cases where cartProducts is not an array (e.g., display message, redirect)

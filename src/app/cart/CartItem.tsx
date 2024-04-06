@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { useCart } from '@/lib/hooks/useCart';
 import formatPrice from '../../../utils/formatPrice';
 import { truncateText } from '../../../utils/truncateText';
 import SetQuantity from '../components/products/SetQuantity';
-import { CartProductType } from '../product/[productId]/ProductDetails';
+import { CartProductType } from '../product/[productName]/ProductDetails';
 
 interface CartItemProps {
   cartProduct: CartProductType;
@@ -22,14 +23,17 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
   return (
     <div className="grid grid-cols-5 ">
       <div className="col-span-2 flex justify-items-start gap-2 md:gap-4 ">
-        <a href={`product/${item.id}`}>
+        <a href={`product/${item.product.name}`}>
           <div className="relative aspect-square w-[70px] ">
-            <img src={item.selectedImg.image} alt={item.name} />
+            <img src={item.product.images.image.url} alt={item.product.name} />
           </div>
         </a>
         <div className="flex flex-col gap-1">
-          <a href={`product/${item.id}`}> {truncateText(item.name)}</a>
-          <div>{item.selectedImg.color}</div>
+          <a href={`product/${item.product.name}`}>
+            {' '}
+            {truncateText(item.product.name)}
+          </a>
+          <div>{item.product.images.color}</div>
           <div className="w-[70px]">
             <button
               className="text-slate-500 underline"
@@ -41,7 +45,7 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
         </div>
       </div>
       <div className="flex items-center justify-center">
-        {formatPrice(item.price)}
+        {formatPrice(item.product.price)}
       </div>
       <div className="flex items-center justify-center ">
         <SetQuantity
@@ -52,7 +56,7 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
         />
       </div>
       <div className="flex items-center justify-end">
-        {formatPrice(item.price * item.quantity)}
+        {formatPrice(item.product.price * item.quantity)}
       </div>
     </div>
   );

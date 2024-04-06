@@ -109,17 +109,17 @@ const AddProductForm = () => {
   }, [isProductCreated]);
 
   const category = watch('category');
-  const AddImageToState = useCallback(
-    (value: ImageType) => {
-      setImages((prev) => {
-        if (!prev) {
-          return [value];
-        }
-        return [...prev, value];
-      });
-    },
-    [setImages]
-  );
+  const AddImageToState = useCallback((value: ImageType) => {
+    console.log('images:', images);
+
+    setImages((prev) => {
+      if (!prev) {
+        return [value];
+      }
+
+      return [...prev, value];
+    });
+  }, []);
 
   const removeImageFromState = useCallback((value: ImageType) => {
     setImages((prev) => {

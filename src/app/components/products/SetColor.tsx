@@ -1,17 +1,15 @@
 'use client';
 
-import {
-  CartProductType,
-  SelectedImgType
-} from '@/app/product/[productId]/ProductDetails';
+import { CartProductType } from '@/app/product/[productName]/ProductDetails';
+import { Product } from '@/lib/type/product';
 
 interface SetColorProps {
-  images: SelectedImgType[];
+  products: Product[];
   cartProduct: CartProductType;
-  handleColorSelect: (value: SelectedImgType) => void;
+  handleColorSelect: (value: Product) => void;
 }
 const SetColor: React.FC<SetColorProps> = ({
-  images,
+  products: products,
   cartProduct,
   handleColorSelect
 }) => {
@@ -20,20 +18,21 @@ const SetColor: React.FC<SetColorProps> = ({
       <div className="flex items-center gap-4">
         <span className="font-semibold">Color : </span>
         <div className="flex gap-1">
-          {images.map((image) => {
+          {products.map((product) => {
             return (
               <div
-                key={image.color}
-                onClick={() => handleColorSelect(image)}
+                key={product.images.color}
+                onClick={() => handleColorSelect(product)}
                 className={`flex h-7 w-7 items-center justify-center rounded-full border-teal-300 
                         ${
-                          cartProduct.selectedImg.color === image.color
+                          cartProduct.product.images.color ===
+                          product.images.color
                             ? 'border-[1.5px]'
                             : 'border-none'
                         }`}
               >
                 <div
-                  style={{ backgroundColor: image.color }}
+                  style={{ backgroundColor: product.images.color }}
                   className="h-5 w-5 cursor-pointer rounded-full border-[1.2px]
                         border-slate-300"
                 ></div>

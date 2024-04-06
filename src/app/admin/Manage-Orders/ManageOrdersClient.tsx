@@ -3,6 +3,7 @@
 import { geOrders } from '@/app/actions/getProducts';
 import { ResListOrders } from '@/lib/type/order';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // interface ManageOrdersClientProps {
@@ -11,6 +12,7 @@ import { useEffect, useState } from 'react';
 
 const ManageOrdersClient = () => {
   let rows: any[] = [];
+  const router = useRouter();
   const [ResOrders, setResOrders] = useState<ResListOrders | null>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +57,10 @@ const ManageOrdersClient = () => {
       headerName: 'ID',
       width: 70,
       renderCell: (params) => (
-        <div className="cursor-pointer" onClick={() => console.log('hello')}>
+        <div
+          className="cursor-pointer"
+          onClick={() => router.push(`/admin/Manage-Orders/${params.value}`)}
+        >
           {params.value}
         </div>
       )

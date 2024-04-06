@@ -1,6 +1,4 @@
-import { getUserInfor } from '@/api/fetch';
-import { CartProductType } from '@/app/product/[productId]/ProductDetails';
-import { getCookie, getCookies } from 'cookies-next';
+import { CartProductType } from '@/app/product/[productName]/ProductDetails';
 import {
   createContext,
   useCallback,
@@ -19,6 +17,7 @@ type CartContextType = {
   handleClearCart: () => void;
   handleCartQtyIncrease: (product: CartProductType) => void;
   handleCartQtyDecrease: (product: CartProductType) => void;
+  // handleUploadCart: (products: CartProductType[]) => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -43,21 +42,39 @@ export const CartContextProvider = (props: Props) => {
   }, []);
 
   const handleAddProductToCart = useCallback((product: CartProductType) => {
-    let updateCart;
     setCartProducts((prev) => {
-      let updateCart;
+      let updatedCart;
       if (prev) {
-        updateCart = [...prev, product];
+        // Check if the product already exists in the cart
+        const existingProductIndex = prev.findIndex(
+          (item) => item.product.id === product.product.id
+        );
+        if (existingProductIndex > -1) {
+          // If the product already exists, update its quantity
+          const updatedProduct = {
+            ...prev[existingProductIndex],
+            quantity: prev[existingProductIndex].quantity + 1
+          };
+          updatedCart = [
+            ...prev.slice(0, existingProductIndex),
+            updatedProduct,
+            ...prev.slice(existingProductIndex + 1)
+          ];
+          toast.success(`Added quantity to cart`);
+        } else {
+          // If the product is not in the cart, add it with a quantity of 1
+          updatedCart = [...prev, { ...product, quantity: product.quantity }];
+          toast.success(`Added item to cart`);
+        }
       } else {
-        updateCart = [product];
+        // If the cart is empty, add the product with a quantity of 1
+        updatedCart = [{ ...product, quantity: 1 }];
+        toast.success(`Added item to cart`);
       }
-      if (updateCart) {
-        toast.success(`Added Items To Cart`);
-        localStorage.setItem('eShopCartItems', JSON.stringify(updateCart));
-      }
+      // Update local storage with the updated cart
+      localStorage.setItem('eShopCartItems', JSON.stringify(updatedCart));
       console.log('Done Func');
-
-      return updateCart;
+      return updatedCart;
     });
   }, []);
 
@@ -66,7 +83,7 @@ export const CartContextProvider = (props: Props) => {
       console.log('product:', product);
       if (cartProducts) {
         const filteredProducts = cartProducts.filter(
-          (item) => item.id !== product.id
+          (item) => item.product.id !== product.product.id
         );
         setCartProducts(filteredProducts);
         toast.success(`Removed Items To Cart`);
@@ -91,7 +108,7 @@ export const CartContextProvider = (props: Props) => {
       if (cartProducts) {
         updateCart = [...cartProducts];
         const existingIndex = cartProducts.findIndex(
-          (item) => item.id === product.id
+          (item) => item.product.id === product.product.id
         );
 
         if (existingIndex > -1) {
@@ -110,7 +127,7 @@ export const CartContextProvider = (props: Props) => {
       if (cartProducts) {
         updateCart = [...cartProducts];
         const existingIndex = cartProducts.findIndex(
-          (item) => item.id === product.id
+          (item) => item.product.id === product.product.id
         );
 
         if (existingIndex > -1) {
@@ -124,7 +141,6 @@ export const CartContextProvider = (props: Props) => {
     },
     [cartProducts]
   );
- 
 
   useEffect(() => {
     // if (cartProducts) {
@@ -135,7 +151,7 @@ export const CartContextProvider = (props: Props) => {
       if (cartProducts) {
         const { total, qty } = cartProducts.reduce(
           (acc: any, item: any) => {
-            const itemTotal = item.price * item.quantity;
+            const itemTotal = item.product.price * item.quantity;
             acc.total += itemTotal;
             acc.qty += item.quantity;
 

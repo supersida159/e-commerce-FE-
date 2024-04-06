@@ -1,7 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['m.media-amazon.com']
+    // domains: ['m.media-amazon.com', 'food-delivery.s3.amazonaws.com',]
+    domains: ['*'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+        port: '',
+        pathname: '/**'
+      }
+    ]
   },
   async headers() {
     return [

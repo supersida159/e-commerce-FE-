@@ -1,5 +1,10 @@
-import { ListOrderRequest, ResListOrders } from '@/lib/type/order';
-import { ResListData } from '@/lib/type/product';
+import {
+  ListOrderRequest,
+  Order,
+  ProductQuantity,
+  ResListOrders
+} from '@/lib/type/order';
+import { Product, ResListData } from '@/lib/type/product';
 
 // ('use server');
 export interface SQLModel {
@@ -73,6 +78,24 @@ export const getProducts = async (
   return null;
 };
 
+export const getProduct = async (name: string) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/product/getProduct/${name}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  if (response.status === 200) {
+    const data = (await response.json()).data as Product[];
+    return data;
+  }
+
+  return null;
+};
+
 export const geOrders = async (reqBody?: ListOrderRequest, params?: Paging) => {
   let queryString = '';
 
@@ -94,6 +117,45 @@ export const geOrders = async (reqBody?: ListOrderRequest, params?: Paging) => {
   );
   if (response.status === 200) {
     const data = (await response.json()) as ResListOrders;
+    return data;
+  }
+
+  return null;
+};
+
+export const getOrder = async (id: string, token: string) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/order/Private/getOrder/${id}`, // Append id to the URL
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  if (response.status === 200) {
+    const data = (await response.json()).data as Order;
+    return data;
+  }
+
+  return null;
+};
+
+export const updateCart = async (products: ProductQuantity, token: string) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/cart/Private/updateCart`, // Append id to the URL
+    {
+      method: 'PUTH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(products)
+    }
+  );
+  if (response.status === 200) {
+    const data = (await response.json()).data as ProductQuantity;
     return data;
   }
 

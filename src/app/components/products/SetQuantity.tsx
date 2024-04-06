@@ -1,6 +1,6 @@
 'use client';
 
-import { CartProductType } from '@/app/product/[productId]/ProductDetails';
+import { CartProductType } from '@/app/product/[productName]/ProductDetails';
 
 interface SetQuantityProps {
   cartCounter?: boolean;
@@ -13,7 +13,7 @@ const SetQuantity: React.FC<SetQuantityProps> = ({
   cartCounter,
   cartProduct,
   handleQtyIncrease,
-  handleQtyDecrease,
+  handleQtyDecrease
 }) => {
   return (
     <div className="flex items-center justify-center gap-8">

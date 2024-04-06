@@ -5,12 +5,12 @@ export interface ReqCreateProduct {
   description: string;
   brand: string;
   active: boolean;
-  images: ImageProduct[];
+  images: image[];
   price: number;
   category: string;
 }
 
-export interface ImageProduct {
+export interface image {
   color: string;
   colorCode: string;
   image: img;
@@ -26,16 +26,18 @@ export interface img {
 }
 export interface Product {
   id: string;
-  status: number;
-  created_at: string;
-  updated_at: string;
+  status?: number;
+  created_at?: string;
+  updated_at?: string;
   name: string;
   code: string;
-  images: ImageProduct[];
+  images: image;
   active: boolean;
-  brand: string;
+  brand?: string;
   quantity: number;
   price: number;
+  category: string;
+  description?: string;
 }
 
 export interface ResListData {
