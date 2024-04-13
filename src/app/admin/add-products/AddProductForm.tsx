@@ -74,17 +74,24 @@ const AddProductForm = () => {
         })
       );
 
-      console.log('data', data);
-      const resAddProduct = await AddNewProduct(data as ReqCreateProduct);
-      if (resAddProduct) {
-        console.log('resAddProduct', resAddProduct);
-        toast.success('Add product success');
-        setIsProductCreated(true);
-        router.refresh();
-      } else {
-        toast.error('Duplicate product name');
-      }
-      console.log('resAddProduct', resAddProduct);
+      const cloneImages = [...data.images];
+
+      const ccc = await Promise.all(
+        cloneImages.map(async (item, index) => {
+          data.images = item;
+          const resAddProduct = await AddNewProduct(data as ReqCreateProduct);
+          if (resAddProduct) {
+            console.log('resAddProduct', resAddProduct);
+            toast.success('Add product success');
+            setIsProductCreated(true);
+            router.refresh();
+          } else {
+            toast.error('Duplicate product name');
+          }
+        })
+      );
+
+      // console.log('resAddProduct', resAddProduct);
       // const handleUploadImages = async (data) => {
       //   data.map
 

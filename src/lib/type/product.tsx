@@ -40,6 +40,20 @@ export interface Product {
   description?: string;
 }
 
+export interface updateProduct {
+  id: string;
+  status?: number;
+  name?: string;
+  code?: string;
+  images?: image;
+  active?: boolean;
+  brand?: string;
+  quantity?: number;
+  price?: string;
+  category?: string;
+  description?: string;
+}
+
 export interface ResListData {
   data: Product[];
   paging: Paging;

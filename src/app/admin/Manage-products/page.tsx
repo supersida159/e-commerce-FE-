@@ -3,7 +3,7 @@ import ManageProductsClient from './ManageProductsClient';
 
 const ManageProducts = () => {
   return (
-    <div className="pt-8">
+    <div className=" pt-8">
       <Container>
         <ManageProductsClient />
       </Container>

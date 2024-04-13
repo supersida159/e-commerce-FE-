@@ -31,7 +31,7 @@ const MenuUser = () => {
             hover:shadow-sm
             "
         >
-          {user ? (
+          {user?.avatar ? (
             <Avatar
               src={user.avatar.url}
               alt="avatar"

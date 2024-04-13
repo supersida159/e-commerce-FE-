@@ -9,7 +9,7 @@ export const metadata = {
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div>
+    <div className="h-full">
       <ChatwootWidget messages={[]} />
       <AdminNav />
       <CheckRole>{children}</CheckRole>

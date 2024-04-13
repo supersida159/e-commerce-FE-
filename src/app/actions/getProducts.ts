@@ -4,7 +4,8 @@ import {
   ProductQuantity,
   ResListOrders
 } from '@/lib/type/order';
-import { Product, ResListData } from '@/lib/type/product';
+import { Product, ResListData, updateProduct } from '@/lib/type/product';
+import { User } from '@/lib/type/user';
 
 // ('use server');
 export interface SQLModel {
@@ -160,4 +161,56 @@ export const updateCart = async (products: ProductQuantity, token: string) => {
   }
 
   return null;
+};
+
+export const registerAPI = async (
+  name: string,
+  email: string,
+  password: string
+) => {
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/user/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, email, password })
+    });
+
+    console.log('Json:', JSON.stringify({ name, email, password }));
+
+    if (response.status === 200) {
+      const data = (await response.json()).data as User;
+      return { data, error: null };
+    } else {
+      const errorMessage = (await response.json()).message;
+      return { data: null, error: errorMessage };
+    }
+  } catch (error) {
+    return {
+      data: null,
+      error: 'An error occurred while processing your request.'
+    };
+  }
+};
+
+export const UpdateProductAPI = async (data: updateProduct, token: string) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/api/v1/product/Private/updateProduct`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    );
+    if (response.status === 200) {
+      return '200';
+    }
+  } catch (error) {
+    return error;
+  }
 };
