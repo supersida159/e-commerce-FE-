@@ -1,6 +1,7 @@
 'use client';
 
 import { useCart } from '@/lib/hooks/useCart';
+import { useRouter } from 'next/navigation';
 import { MdArrowBack } from 'react-icons/md';
 import formatPrice from '../../../utils/formatPrice';
 import Heading from '../components/Heading/heading';
@@ -9,6 +10,7 @@ import CartItem from './CartItem';
 
 const CartClients = () => {
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
+  const router = useRouter();
   if (!cartProducts || cartProducts.length === 0) {
     return (
       <div className="flex flex-col items-center">
@@ -61,7 +63,7 @@ const CartClients = () => {
               <Button
                 label="Checkout"
                 outline
-                onClick={() => handleClearCart()}
+                onClick={() => (router.push('/order/address'))}
               ></Button>
             </div>
             <div>
