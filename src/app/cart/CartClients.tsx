@@ -1,15 +1,39 @@
 'use client';
 
 import { useCart } from '@/lib/hooks/useCart';
+import { useUser } from '@/lib/hooks/useUser';
+import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { MdArrowBack } from 'react-icons/md';
 import formatPrice from '../../../utils/formatPrice';
+import { CreateNewOrder } from '../actions/getProducts';
 import Heading from '../components/Heading/heading';
 import Button from '../components/products/button';
 import CartItem from './CartItem';
 
 const CartClients = () => {
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
+  const { user } = useUser();
+  const hanldeCreateNewOrder = async () => {
+    console.log('user ID is:', user?.real_id);
+
+    if (user?.real_id) {
+      if (cartProducts) {
+        if (getCookie('token')) {
+          const res = await CreateNewOrder(getCookie('token') as string);
+          console.log('orderID res:', res);
+          if (res) {
+            handleClearCart();
+            router.push('/order/' + res);
+          }
+        } else {
+          router.push('/login');
+        }
+      }
+    } else {
+      router.push('/login');
+    }
+  };
   const router = useRouter();
   if (!cartProducts || cartProducts.length === 0) {
     return (
@@ -63,7 +87,7 @@ const CartClients = () => {
               <Button
                 label="Checkout"
                 outline
-                onClick={() => (router.push('/order/address'))}
+                onClick={hanldeCreateNewOrder}
               ></Button>
             </div>
             <div>

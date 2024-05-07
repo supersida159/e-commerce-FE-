@@ -1,10 +1,10 @@
 'use client';
 
-import { CartProductType } from '@/app/product/[productName]/ProductDetails';
+import { Cartitem } from '@/lib/type/order';
 
 interface SetQuantityProps {
   cartCounter?: boolean;
-  cartProduct: CartProductType;
+  cartProduct: Cartitem;
   handleQtyIncrease: () => void;
   handleQtyDecrease: () => void;
 }

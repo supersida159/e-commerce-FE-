@@ -44,13 +44,6 @@ export const UserContextProvider = (props: Props) => {
     fetchData();
   }, []);
   // upload DB when cart change
-  useEffect(() => {
-    if (user) {
-      if (cartProducts) {
-        handleSetUser({ ...user, cart: cartProducts });
-      }
-    }
-  }, [cartProducts]);
 
   const value = { user, handleSetUser, token }; // Fix the typo here
 

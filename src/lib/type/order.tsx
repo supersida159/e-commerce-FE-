@@ -2,30 +2,36 @@ import { Paging } from '@/app/actions/getProducts';
 import { Product } from './product';
 
 export interface Order {
-  id: number;
-  userOrderID: number;
-  customer_name: string;
-  customer_phone: string;
-  ProductQuantity: ProductQuantity[];
-  shipping: ShippingInfo;
-  orderTotal: number;
-  notes: string;
-  address: Address;
-  orderCancelled: boolean;
+  id: string;
+  created_at?: Date;
+  userOrderID?: number;
+  customer_name?: string;
+  customer_phone?: string;
+  ProductQuantity?: Cartitem[];
+  shipping?: ShippingInfo;
+  orderTotal?: number;
+  notes?: string;
+  address?: Address;
+  order_cancelled?: boolean;
 }
-export interface ProductQuantity {
+export interface Cartitem {
+  id?: number;
+  cart_id?: number;
+  product_id?: number;
   product: Product;
   quantity: number;
 }
 export interface ShippingInfo {
-  method: string;
-  cost: number;
-  estimatedDelivery: string; // Adjust the type to match the format of time.Time in your application
+  Method: string;
+  Cost: number;
+  EstimatedDelivery: string; // Adjust the type to match the format of time.Time in your application
   // Add any additional shipping details as needed
 }
 
 // Define the Address interface
 export interface Address {
+  real_id?: number;
+  status?: number;
   street: string;
   city: string;
   state: string;
@@ -42,12 +48,11 @@ export interface UpdateOrderRequest {
 
 // Define the PlaceOrderRequest interface
 export interface PlaceOrderRequest {
-  customer_name: string;
-  customer_phone: string;
-  products: ProductQuantity[];
-  notes: string;
-  shipping: ShippingInfo;
-  address: Address;
+  customer_name?: string;
+  customer_phone?: string;
+  products: Cartitem[] | null;
+  notes?: string;
+  address?: Address;
 }
 
 export interface ListOrderRequest {
@@ -66,4 +71,9 @@ export interface ResListOrders {
   data: Order[];
   paging: Paging;
   filter: ListOrderRequest;
+}
+
+export interface ResPlaceOrder {
+  OrderID: string;
+  ExTime: string;
 }

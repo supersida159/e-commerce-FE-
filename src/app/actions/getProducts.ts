@@ -1,7 +1,8 @@
+import { Cart } from '@/lib/type/cart';
 import {
+  Cartitem,
   ListOrderRequest,
   Order,
-  ProductQuantity,
   ResListOrders
 } from '@/lib/type/order';
 import { Product, ResListData, updateProduct } from '@/lib/type/product';
@@ -97,7 +98,11 @@ export const getProduct = async (name: string) => {
   return null;
 };
 
-export const geOrders = async (reqBody?: ListOrderRequest, params?: Paging) => {
+export const getOrders = async (
+  token: string,
+  reqBody?: ListOrderRequest,
+  params?: Paging
+) => {
   let queryString = '';
 
   if (params) {
@@ -111,7 +116,8 @@ export const geOrders = async (reqBody?: ListOrderRequest, params?: Paging) => {
     {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(reqBody)
     }
@@ -122,6 +128,85 @@ export const geOrders = async (reqBody?: ListOrderRequest, params?: Paging) => {
   }
 
   return null;
+};
+
+//create an order
+export const CreateNewOrder = async (token: string) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/order/Private/createOrder`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  if (response.status === 200) {
+    const data = (await response.json()).data as string;
+    return data;
+  }
+
+  return null;
+};
+
+export const updateOrder = async (
+  orderid: string,
+  token: string,
+  order: Order
+) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/order/Private/updateOrder/${orderid}`, // Append id to the URL
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(order)
+    }
+  );
+  if (response.status === 200) {
+    return '200';
+  } else if (response.status === 401) {
+    return '401';
+  }
+};
+
+export const updateCartItem = async (product: Cartitem, token: string) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/cart/Private/updateCart`, // Append id to the URL
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(product)
+    }
+  );
+  if (response.status === 200) {
+    return '200';
+  }
+};
+
+export const getCart = async (token: string) => {
+  const response = await fetch(
+    `http://localhost:8080/api/v1/cart/Private/getCart`, // Append id to the URL
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  if (response.status === 200) {
+    const data = (await response.json()).data as Cart;
+    return data;
+  } else {
+    return null;
+  }
 };
 
 export const getOrder = async (id: string, token: string) => {
@@ -143,7 +228,7 @@ export const getOrder = async (id: string, token: string) => {
   return null;
 };
 
-export const updateCart = async (products: ProductQuantity, token: string) => {
+export const updateCart = async (products: Cartitem, token: string) => {
   const response = await fetch(
     `http://localhost:8080/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
@@ -156,7 +241,7 @@ export const updateCart = async (products: ProductQuantity, token: string) => {
     }
   );
   if (response.status === 200) {
-    const data = (await response.json()).data as ProductQuantity;
+    const data = (await response.json()).data as Cartitem;
     return data;
   }
 
@@ -198,6 +283,27 @@ export const UpdateProductAPI = async (data: updateProduct, token: string) => {
   try {
     const response = await fetch(
       `http://localhost:8080/api/v1/product/Private/updateProduct`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      }
+    );
+    if (response.status === 200) {
+      return '200';
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
+export const UpdateUserInfor = async (data: any, token: string) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/api/v1/user/Private/update`,
       {
         method: 'PUT',
         headers: {

@@ -1,6 +1,7 @@
 'use client';
 
 import { Login, getUserInfor } from '@/api/fetch';
+import { useCart } from '@/lib/hooks/useCart';
 import { useUser } from '@/lib/hooks/useUser';
 import { User } from '@/lib/type/user';
 import { setCookie } from 'cookies-next';
@@ -9,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { AiOutlineGoogle } from 'react-icons/ai';
+import { getCart, updateCartItem } from '../actions/getProducts';
 import Heading from '../components/Heading/heading';
 import Input from '../components/inputs/Input';
 import Button from '../components/products/button';
@@ -17,6 +19,8 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { handleSetUser: hanldeSetUser } = useUser();
+  const { handleAddProductToCart, cartProducts, handleSetCartProducts } =
+    useCart();
 
   const {
     register,
@@ -52,8 +56,19 @@ const LoginForm = () => {
       console.log(resData);
       setCookie('token', accestoken);
       const resUser = await getUserInfor();
+      console.log('resUser:', resUser);
       if (resUser) {
         hanldeSetUser(resUser.data as User);
+        if (cartProducts) {
+          for (const product of cartProducts) {
+            await updateCartItem(product, accestoken);
+          }
+          const res = await getCart(accestoken);
+          if (res) {
+            handleSetCartProducts(res.items);
+            localStorage.setItem('eShopCartItems', JSON.stringify(res.items));
+          }
+        }
       }
 
       router.push('/');

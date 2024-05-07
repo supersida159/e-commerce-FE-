@@ -1,13 +1,17 @@
+import { Address } from './order';
+
 export interface User {
-  id: number | null;
-  status: number;
+  real_id?: number | null;
+  status?: number;
   created_at: string;
   updated_at: string;
   email: string;
+  phone?: number;
   first_name: string;
   last_name: string;
-  role: string;
-  avatar: Image;
+  role?: string;
+  avatar?: Image;
+  address?: Address[];
 }
 
 export interface Image {
@@ -17,6 +21,7 @@ export interface Image {
   height: number;
   cloudName: string;
   extension: string;
+  address?: Address;
 }
 export interface ResUploadImageData {
   id: number;

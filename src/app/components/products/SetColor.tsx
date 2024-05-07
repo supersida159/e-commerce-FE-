@@ -1,11 +1,11 @@
 'use client';
 
-import { CartProductType } from '@/app/product/[productName]/ProductDetails';
+import { Cartitem } from '@/lib/type/order';
 import { Product } from '@/lib/type/product';
 
 interface SetColorProps {
   products: Product[];
-  cartProduct: CartProductType;
+  cartProduct: Cartitem;
   handleColorSelect: (value: Product) => void;
 }
 const SetColor: React.FC<SetColorProps> = ({

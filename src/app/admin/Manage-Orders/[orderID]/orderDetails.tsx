@@ -1,8 +1,7 @@
 'use client';
-import { getOrder } from '@/app/actions/getProducts';
+import { getOrder, getOrders } from '@/app/actions/getProducts';
 import Heading from '@/app/components/Heading/heading';
 import { Order } from '@/lib/type/order';
-import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import formatPrice from '../../../../../utils/formatPrice';
@@ -22,7 +21,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const token = getCookie('token');
+        const token = getOrders('token');
         if (typeof token !== 'undefined') {
           // Check if token is defined before using it
           const res = await getOrder(order, token);

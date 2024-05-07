@@ -1,4 +1,3 @@
-import { CartProductType } from '@/app/product/[productName]/ProductDetails';
 import {
   createContext,
   useCallback,
@@ -7,17 +6,19 @@ import {
   useState
 } from 'react';
 import { toast } from 'react-hot-toast';
+import { Cartitem } from '../type/order';
 
 type CartContextType = {
   cartTotalQty: number;
-  cartProducts: CartProductType[] | null;
+  cartProducts: Cartitem[] | null;
   cartTotalAmount: number;
-  handleAddProductToCart: (product: CartProductType) => void;
-  handleRemoveProductFromCart: (product: CartProductType) => void;
+  handleAddProductToCart: (product: Cartitem) => void;
+  handleSetCartProducts: (products: Cartitem[]) => void;
+  handleRemoveProductFromCart: (product: Cartitem) => void;
   handleClearCart: () => void;
-  handleCartQtyIncrease: (product: CartProductType) => void;
-  handleCartQtyDecrease: (product: CartProductType) => void;
-  // handleUploadCart: (products: CartProductType[]) => void;
+  handleCartQtyIncrease: (product: Cartitem) => void;
+  handleCartQtyDecrease: (product: Cartitem) => void;
+  // handleUploadCart: (products: Cartitem[]) => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -29,19 +30,17 @@ interface Props {
 export const CartContextProvider = (props: Props) => {
   const [cartTotalQty, setCartTotalQty] = useState(0);
 
-  const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(
-    null
-  );
+  const [cartProducts, setCartProducts] = useState<Cartitem[] | null>(null);
   const [cartTotalAmount, setCartTotalAmount] = useState(0);
 
   useEffect(() => {
     const cartItems: any = localStorage.getItem('eShopCartItems');
-    const cProducts: CartProductType[] | null = JSON.parse(cartItems);
+    const cProducts: Cartitem[] | null = JSON.parse(cartItems);
 
     setCartProducts(cProducts);
   }, []);
 
-  const handleAddProductToCart = useCallback((product: CartProductType) => {
+  const handleAddProductToCart = useCallback((product: Cartitem) => {
     setCartProducts((prev) => {
       let updatedCart;
       if (prev) {
@@ -77,9 +76,11 @@ export const CartContextProvider = (props: Props) => {
       return updatedCart;
     });
   }, []);
-
+  const handleSetCartProducts = useCallback((products: Cartitem[]) => {
+    setCartProducts(products);
+  }, []);
   const handleRemoveProductFromCart = useCallback(
-    (product: CartProductType) => {
+    (product: Cartitem) => {
       console.log('product:', product);
       if (cartProducts) {
         const filteredProducts = cartProducts.filter(
@@ -103,7 +104,7 @@ export const CartContextProvider = (props: Props) => {
   }, [cartProducts]);
 
   const handleCartQtyIncrease = useCallback(
-    (product: CartProductType) => {
+    (product: Cartitem) => {
       let updateCart;
       if (cartProducts) {
         updateCart = [...cartProducts];
@@ -122,20 +123,25 @@ export const CartContextProvider = (props: Props) => {
     [cartProducts]
   );
   const handleCartQtyDecrease = useCallback(
-    (product: CartProductType) => {
+    (product: Cartitem) => {
       let updateCart;
       if (cartProducts) {
         updateCart = [...cartProducts];
+
         const existingIndex = cartProducts.findIndex(
           (item) => item.product.id === product.product.id
         );
 
-        if (existingIndex > -1) {
-          updateCart[existingIndex].quantity = --updateCart[existingIndex]
-            .quantity;
+        if (updateCart[existingIndex].quantity > 1) {
+          if (existingIndex > -1) {
+            updateCart[existingIndex].quantity = --updateCart[existingIndex]
+              .quantity;
 
-          setCartProducts(updateCart);
-          localStorage.setItem('eShopCartItems', JSON.stringify(updateCart));
+            setCartProducts(updateCart);
+            localStorage.setItem('eShopCartItems', JSON.stringify(updateCart));
+          }
+        } else if (updateCart[existingIndex].quantity === 1) {
+          handleRemoveProductFromCart(product);
         }
       }
     },
@@ -144,8 +150,8 @@ export const CartContextProvider = (props: Props) => {
 
   useEffect(() => {
     // if (cartProducts) {
-    //     setCartTotalAmount(cartProducts.reduce((acc: number, product: CartProductType) => acc + product.quantity * product.price, 0))
-    //     setCartTotalQty(cartProducts.reduce((acc: number, product: CartProductType) => acc + product.quantity, 0))
+    //     setCartTotalAmount(cartProducts.reduce((acc: number, product: Cartitem) => acc + product.quantity * product.price, 0))
+    //     setCartTotalQty(cartProducts.reduce((acc: number, product: Cartitem) => acc + product.quantity, 0))
     // }
     const getTotals = () => {
       if (cartProducts) {
@@ -173,6 +179,7 @@ export const CartContextProvider = (props: Props) => {
     cartProducts,
     cartTotalAmount,
     handleAddProductToCart,
+    handleSetCartProducts,
     handleRemoveProductFromCart,
     handleClearCart,
     handleCartQtyIncrease,

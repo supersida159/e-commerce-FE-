@@ -1,11 +1,11 @@
 'use client';
 
-import { CartProductType } from '@/app/product/[productName]/ProductDetails';
+import { Cartitem } from '@/lib/type/order';
 import { Product } from '@/lib/type/product';
 import Image from 'next/image';
 
 interface ProductImageProps {
-  cartProduct: CartProductType;
+  cartProduct: Cartitem;
   products: Product[];
   handleColorSelect: (value: Product) => void;
 }

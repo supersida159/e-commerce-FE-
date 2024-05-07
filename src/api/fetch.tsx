@@ -1,3 +1,4 @@
+import { Address } from '@/lib/type/order';
 import { ReqCreateProduct } from '@/lib/type/product';
 import { ResUploadImageData } from '@/lib/type/user';
 import { deleteCookie, getCookie } from 'cookies-next';
@@ -111,6 +112,21 @@ export const getUserInfor = async () => {
 
     if (response.ok) {
       return response.data;
+    }
+  } catch (err) {
+    console.error('Error getting user information:', err);
+  }
+};
+
+export const getAddress = async () => {
+  try {
+    const response = await fetchDataWithValidToken(
+      'user/Private/address',
+      'GET'
+    );
+
+    if (response.ok) {
+      return response.data.data as Address[];
     }
   } catch (err) {
     console.error('Error getting user information:', err);

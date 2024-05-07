@@ -5,19 +5,16 @@ import SetQuantity from '@/app/components/products/SetQuantity';
 import Button from '@/app/components/products/button';
 import ProductImage from '@/app/components/products/productImage';
 import { useCart } from '@/lib/hooks/useCart';
+import { useUser } from '@/lib/hooks/useUser';
+import { Cartitem } from '@/lib/type/order';
 import { Product } from '@/lib/type/product';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
 
 interface ProductDetailsProps {
   products: Product[];
 }
-
-export type CartProductType = {
-  product: Product;
-  quantity: number;
-};
 
 const Horizontal = () => {
   return <hr className="w-[30% my-2]" />;
@@ -25,12 +22,13 @@ const Horizontal = () => {
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ products }) => {
   const router = useRouter();
+  const { user } = useUser();
 
   const { handleAddProductToCart, cartProducts } = useCart();
   const [isProductInCart, setIsProductInCart] = useState(false);
-  const [cartProduct, setCartProduct] = useState<CartProductType>({
+  const [cartProduct, setCartProduct] = useState<Cartitem>({
     product: products[0],
-    quantity: products[0]?.quantity || 1
+    quantity: 1
   });
 
   // useEffect(() => {
@@ -80,13 +78,21 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ products }) => {
       ...prev,
       quantity: prev.quantity + 1
     }));
-  }, [cartProduct]);
+  }, []);
   const handleQtyDecrease = useCallback(() => {
-    if (cartProduct.quantity === 1) return;
-    setCartProduct((prev) => ({
-      ...prev,
-      quantitybuy: prev.quantity - 1
-    }));
+    setCartProduct((prev) => {
+      if (prev.quantity === 1) return prev;
+      return {
+        ...prev,
+        quantity: prev.quantity - 1
+      };
+    });
+  }, []);
+  useEffect(() => {
+    if (user != null) {
+      //update cart
+      return;
+    }
   }, [cartProduct]);
 
   return (

@@ -1,12 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
-import { ProductQuantity } from '@/lib/type/order';
+import { Cartitem } from '@/lib/type/order';
 import formatPrice from '../../../../../utils/formatPrice';
 import { truncateText } from '../../../../../utils/truncateText';
 
-const OrderItem: React.FC<{ productQty: ProductQuantity }> = ({
-  productQty
-}) => {
-  return (    // <div className="grid grid-cols-5 ">
+const OrderItem: React.FC<{ productQty: Cartitem }> = ({ productQty }) => {
+  return (
+    // <div className="grid grid-cols-5 ">
     //   <div className="col-span-2 flex items-center justify-start gap-2 md:gap-4 ">
     //     <Link href={`/product/${productQty.product.id}`}>
     //       <div className="relative aspect-square w-[70px]">
@@ -50,9 +49,8 @@ const OrderItem: React.FC<{ productQty: ProductQuantity }> = ({
           <div className="relative aspect-square w-[70px] ">
             <img
               src={
-                productQty.product.images &&
-                productQty.product.images.length > 0
-                  ? productQty.product.images[0]?.image?.url
+                productQty.product.images
+                  ? productQty.product.images?.image?.url
                   : 'https://www.metrorollerdoors.com.au/wp-content/uploads/2018/02/unavailable-image-300x225.jpg'
               }
               alt={productQty.product.name}
@@ -67,7 +65,7 @@ const OrderItem: React.FC<{ productQty: ProductQuantity }> = ({
           <div>
             {' '}
             {productQty.product.images
-              ? productQty.product.images[0].color
+              ? productQty.product.images.color
               : 'undified'}
           </div>
         </div>

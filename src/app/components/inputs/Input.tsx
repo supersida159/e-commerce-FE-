@@ -11,6 +11,7 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   isNumber?: boolean;
+  placeholder?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -65,7 +66,6 @@ const Input: React.FC<InputProps> = ({
             peer-placeholder-shown:scale-100
             peer-focus:-translate-y-4
             peer-focus:scale-75
-
             `}
       >
         {label}
@@ -75,3 +75,54 @@ const Input: React.FC<InputProps> = ({
 };
 
 export default Input;
+
+const InputEditable: React.FC<InputProps> = ({
+  id,
+  label,
+  type,
+  disabled,
+  required,
+  register,
+  errors,
+  isNumber,
+  placeholder
+}) => {
+  return (
+    <div className="relative w-full">
+      <label
+        htmlFor={id}
+        className={`
+            text-md
+            left-4
+            top-5
+            `}
+      >
+        {label}
+      </label>
+      <input
+        autoComplete="off"
+        id={id}
+        disabled={disabled}
+        {...register(id, { required })}
+        type={type}
+        placeholder={placeholder}
+        className={`
+            by-white
+            peer
+            w-full
+            rounded-md
+            border-2
+            p-4
+            font-light
+            outline-none
+            transition
+            disabled:cursor-not-allowed
+            disabled:opacity-70
+            ${errors[id] ? 'border-rose-500' : 'border-slate-300'}
+            ${errors[id] ? 'focus:border-rose-500' : 'focus:border-slate-500'}`}
+      />
+    </div>
+  );
+};
+
+export { InputEditable };
