@@ -56,18 +56,17 @@ const LoginForm = () => {
       console.log(resData);
       setCookie('token', accestoken);
       const resUser = await getUserInfor();
-      console.log('resUser:', resUser);
       if (resUser) {
         hanldeSetUser(resUser.data as User);
         if (cartProducts) {
           for (const product of cartProducts) {
             await updateCartItem(product, accestoken);
           }
-          const res = await getCart(accestoken);
-          if (res) {
-            handleSetCartProducts(res.items);
-            localStorage.setItem('eShopCartItems', JSON.stringify(res.items));
-          }
+        }
+        const res = await getCart(accestoken);
+        if (res) {
+          handleSetCartProducts(res.items);
+          localStorage.setItem('eShopCartItems', JSON.stringify(res.items));
         }
       }
 

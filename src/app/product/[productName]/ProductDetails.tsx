@@ -1,5 +1,6 @@
 'use client';
 
+import { addProductToCart } from '@/app/actions/getProducts';
 import SetColor from '@/app/components/products/SetColor';
 import SetQuantity from '@/app/components/products/SetQuantity';
 import Button from '@/app/components/products/button';
@@ -8,6 +9,7 @@ import { useCart } from '@/lib/hooks/useCart';
 import { useUser } from '@/lib/hooks/useUser';
 import { Cartitem } from '@/lib/type/order';
 import { Product } from '@/lib/type/product';
+import { deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
@@ -25,11 +27,41 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ products }) => {
   const { user } = useUser();
 
   const { handleAddProductToCart, cartProducts } = useCart();
+  const addproducthdl = async (cart: Cartitem) => {
+    const token = getCookie('token');
+    let cartquantity = 0;
+    const subcart = { ...cart };
+
+    if (cartProducts) {
+      const existingProductIndex = cartProducts.findIndex(
+        (item) => item.product.id === subcart.product.id
+      );
+      if (existingProductIndex > -1) {
+        cartquantity = cartProducts[existingProductIndex].quantity;
+      }
+    }
+
+    if (token) {
+      const data = await addProductToCart(cart, token);
+      subcart.quantity = cartquantity + cart.quantity;
+      console.log('data', data);
+
+      if (data == 400) {
+        router.push('/login');
+        deleteCookie('token');
+      } else if (data == 200) {
+        handleAddProductToCart(cart);
+      }
+    } else {
+      handleAddProductToCart(cart);
+    }
+  };
   const [isProductInCart, setIsProductInCart] = useState(false);
   const [cartProduct, setCartProduct] = useState<Cartitem>({
     product: products[0],
     quantity: 1
   });
+  const [isInCart, setIsInCart] = useState(false);
 
   // useEffect(() => {
   //   if (Array.isArray(cartProducts) && cartProducts?.length) {
@@ -72,6 +104,9 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ products }) => {
     },
     [cartProduct]
   );
+  useEffect(() => {
+    console.log(cartProduct);
+  }, [cartProduct]);
 
   const handleQtyIncrease = useCallback(() => {
     setCartProduct((prev) => ({
@@ -88,12 +123,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ products }) => {
       };
     });
   }, []);
-  useEffect(() => {
-    if (user != null) {
-      //update cart
-      return;
-    }
-  }, [cartProduct]);
 
   return (
     <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
@@ -170,9 +199,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ products }) => {
             <div className="max-w-80	">
               <Button
                 label="Add to Cart"
-                onClick={() => (
-                  console.log('clicked'), handleAddProductToCart(cartProduct)
-                )}
+                onClick={() => addproducthdl(cartProduct)}
               />
             </div>
           </>

@@ -1,6 +1,5 @@
 'use client';
-import { getProducts, ReqListProduct } from '@/app/actions/getProducts';
-import { ResListData } from '@/lib/type/product';
+import { ReqListProduct } from '@/app/actions/getProducts';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CiSquareChevDown } from 'react-icons/ci';
 import { MdChatBubble } from 'react-icons/md';
@@ -13,8 +12,8 @@ const ChatBox: React.FC<{ messages: string[] }> = ({ messages }) => {
     brand: 'apple'
   };
   const handleGetProducts = useCallback(async () => {
-    const response = (await getProducts(reqData)) as ResListData;
-    console.log(response.data);
+    // const response = (await getProducts(reqData)) as ResListData;
+    // console.log(response.data);
   }, []);
 
   useEffect(() => {

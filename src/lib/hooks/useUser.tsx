@@ -7,7 +7,7 @@ import { useCart } from './useCart';
 type UserContext = {
   user: User | null;
   token: string | undefined;
-  handleSetUser: (user: User) => void; // Fix the typo here
+  handleSetUser: (user: User | null) => void; // Fix the typo here
 };
 
 export const UserContext = createContext<UserContext | null>(null);
@@ -21,7 +21,7 @@ export const UserContextProvider = (props: Props) => {
   const [token, setToken] = useState<string | undefined>();
   const { cartProducts } = useCart();
 
-  const handleSetUser = (newUser: User) => {
+  const handleSetUser = (newUser: User | null) => {
     setUser(newUser);
     console.log(newUser);
   };

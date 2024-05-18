@@ -15,16 +15,19 @@
     "@mui/material": "^5.15.12",
     "@mui/x-data-grid": "^6.19.6",
     "@mui/x-data-grid-premium": "^6.19.6",
+    "chart.js": "^4.4.2",
     "cookies-next": "^4.1.1",
     "cors": "^2.8.5",
-    "next": "14.1.0",
+    "next": "^14.2.3",
     "next-auth": "^4.24.6",
+    "query-string": "^9.0.0",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.50.1",
     "react-hot-toast": "^2.4.1",
-    "react-icons": "^5.0.1"
+    "react-icons": "^5.0.1",
+    "react-places-autocomplete": "^7.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",

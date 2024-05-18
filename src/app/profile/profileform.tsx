@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { UpdateUserInfor } from '../actions/getProducts';
-import AddressForm from '../components/address/addressform';
 import { InputEditable } from '../components/inputs/Input';
 import Button from '../components/products/button';
 
@@ -101,7 +100,7 @@ const ProfileForm = ({ user }: UserProps) => {
         required
         placeholder={user?.phone?.toString()}
       />
-      {editAddresses ? (
+      {/* {editAddresses ? (
         user?.address ? (
           user.address.map((addr) => (
             <AddressForm
@@ -114,7 +113,7 @@ const ProfileForm = ({ user }: UserProps) => {
         ) : null
       ) : (
         <Button label="Edit Addresses" onClick={() => setEditAddresses(true)} />
-      )}
+      )} */}
       <Button
         label={isLoading ? 'Loading...' : 'Submit Edit'}
         disabled={isLoading}

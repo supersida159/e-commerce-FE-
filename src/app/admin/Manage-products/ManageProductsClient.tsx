@@ -119,7 +119,7 @@ const ManageProductsClient = () => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   return (
-    <div className="h-full w-full">
+    <div className="relative h-full w-full">
       <table className="w-full table-auto border-collapse border-2 border-gray-400">
         <thead>
           <tr className="">
@@ -250,7 +250,7 @@ const ManageProductsClient = () => {
         </tbody>
       </table>
 
-      <div className="absolute bottom-0 left-0 right-0 w-full items-center justify-center">
+      <div className="bottom-0 left-0 right-0 mt-5 w-full items-center justify-center">
         <Pagination
           totalItems={Resproducts?.data?.length ?? 0}
           currentPage={currentPage}

@@ -12,7 +12,7 @@ const MenuUser = () => {
   const toggle = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
-  const { user } = useUser();
+  const { user, handleSetUser } = useUser();
 
   return (
     <>
@@ -58,6 +58,11 @@ const MenuUser = () => {
                 shadow-md"
           >
             <div>
+              {user?.role === 'admin' ? (
+                <Link href="/admin">
+                  <MenuItem onClick={toggle}>Addmin Dashboard</MenuItem>
+                </Link>
+              ) : null}
               <Link href="/orders">
                 <MenuItem onClick={toggle}>Your Order</MenuItem>
               </Link>
@@ -68,6 +73,8 @@ const MenuUser = () => {
                 onClick={() => {
                   toggle();
                   localStorage.clear();
+                  handleSetUser(null);
+                  window.location.href = '/login';
                 }}
               >
                 LogOut
@@ -77,9 +84,11 @@ const MenuUser = () => {
               <Link href="/login">
                 <MenuItem onClick={toggle}>Login</MenuItem>
               </Link>
-              <Link href="/register">
-                <MenuItem onClick={toggle}>Register</MenuItem>
-              </Link>
+              {user ? null : (
+                <Link href="/register">
+                  <MenuItem onClick={toggle}>Register</MenuItem>
+                </Link>
+              )}
             </div>
           </div>
         )}

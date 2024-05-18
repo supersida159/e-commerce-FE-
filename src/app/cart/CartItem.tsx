@@ -3,8 +3,11 @@
 
 import { useCart } from '@/lib/hooks/useCart';
 import { Cartitem } from '@/lib/type/order';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 import formatPrice from '../../../utils/formatPrice';
 import { truncateText } from '../../../utils/truncateText';
+import { updateCartItem } from '../actions/getProducts';
 import SetQuantity from '../components/products/SetQuantity';
 
 interface CartItemProps {
@@ -19,6 +22,76 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
     handleCartQtyDecrease,
     handleCartQtyIncrease
   } = useCart();
+  const router = useRouter();
+
+  const removeItemHandler = async (item: Cartitem) => {
+    handleRemoveProductFromCart(item);
+
+    const token = getCookie('token');
+    let cartquantity = 0;
+    const subcart = { ...item };
+    subcart.quantity = 0;
+
+    if (token) {
+      const data = await updateCartItem(subcart, token);
+      console.log('data', data);
+
+      if (data == 400) {
+        router.push('/login');
+        deleteCookie('token');
+      } else if (data == 200) {
+        handleRemoveProductFromCart(item);
+      }
+    } else {
+      handleRemoveProductFromCart(item);
+    }
+  };
+
+  const increaseItemhandler = async (item: Cartitem) => {
+    const token = getCookie('token');
+    let cartquantity = 0;
+    let subcart = { ...item };
+    subcart.quantity = item.quantity + 1;
+
+    if (token) {
+      const data = await updateCartItem(subcart, token);
+      console.log('data', data);
+
+      if (data == 400) {
+        router.push('/login');
+        deleteCookie('token');
+      } else if (data == 200) {
+        handleCartQtyIncrease(subcart);
+      }
+    } else {
+      handleCartQtyIncrease(subcart);
+    }
+  };
+
+  const decreaseItemhandler = async (item: Cartitem) => {
+    const token = getCookie('token');
+    let cartquantity = 0;
+    let subcart = { ...item };
+    subcart.quantity = item.quantity - 1;
+
+    if (subcart.quantity > 0) {
+      if (token) {
+        const data = await updateCartItem(subcart, token);
+        console.log('data', data);
+
+        if (data == 400) {
+          router.push('/login');
+          deleteCookie('token');
+        } else if (data == 200) {
+          handleCartQtyDecrease(item);
+        }
+      } else {
+        handleCartQtyDecrease(item);
+      }
+    } else {
+      removeItemHandler(item);
+    }
+  };
 
   return (
     <div className="grid grid-cols-5 ">
@@ -37,7 +110,7 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
           <div className="w-[70px]">
             <button
               className="text-slate-500 underline"
-              onClick={() => handleRemoveProductFromCart(item)}
+              onClick={() => removeItemHandler(item)}
             >
               Remove
             </button>
@@ -51,8 +124,8 @@ const CartItem: React.FC<CartItemProps> = ({ cartProduct: item }) => {
         <SetQuantity
           cartCounter={true}
           cartProduct={item}
-          handleQtyIncrease={() => handleCartQtyIncrease(item)}
-          handleQtyDecrease={() => handleCartQtyDecrease(item)}
+          handleQtyIncrease={() => increaseItemhandler(item)}
+          handleQtyDecrease={() => decreaseItemhandler(item)}
         />
       </div>
       <div className="flex items-center justify-end">

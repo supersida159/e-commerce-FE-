@@ -11,7 +11,9 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   isNumber?: boolean;
-  placeholder?: string;
+  placeholder?: any;
+  value?: any;
+  onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -84,8 +86,9 @@ const InputEditable: React.FC<InputProps> = ({
   required,
   register,
   errors,
-  isNumber,
-  placeholder
+  placeholder,
+  value,
+  onchange
 }) => {
   return (
     <div className="relative w-full">
@@ -100,15 +103,17 @@ const InputEditable: React.FC<InputProps> = ({
         {label}
       </label>
       <input
+        readOnly={disabled}
         autoComplete="off"
         id={id}
         disabled={disabled}
         {...register(id, { required })}
         type={type}
         placeholder={placeholder}
+        value={value}
+        onChange={onchange}
         className={`
             by-white
-            peer
             w-full
             rounded-md
             border-2

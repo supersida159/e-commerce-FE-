@@ -2,11 +2,11 @@
 
 import { useCart } from '@/lib/hooks/useCart';
 import { useUser } from '@/lib/hooks/useUser';
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { MdArrowBack } from 'react-icons/md';
 import formatPrice from '../../../utils/formatPrice';
-import { CreateNewOrder } from '../actions/getProducts';
+import { CreateNewOrder, updateCartItem } from '../actions/getProducts';
 import Heading from '../components/Heading/heading';
 import Button from '../components/products/button';
 import CartItem from './CartItem';
@@ -14,6 +14,8 @@ import CartItem from './CartItem';
 const CartClients = () => {
   const { cartProducts, handleClearCart, cartTotalAmount } = useCart();
   const { user } = useUser();
+  const router = useRouter();
+
   const hanldeCreateNewOrder = async () => {
     console.log('user ID is:', user?.real_id);
 
@@ -24,7 +26,7 @@ const CartClients = () => {
           console.log('orderID res:', res);
           if (res) {
             handleClearCart();
-            router.push('/order/' + res);
+            router.push('/orders/' + res);
           }
         } else {
           router.push('/login');
@@ -34,7 +36,25 @@ const CartClients = () => {
       router.push('/login');
     }
   };
-  const router = useRouter();
+
+  const clearCarthandler = async () => {
+    cartProducts?.map(async (item) => {
+      const token = getCookie('token');
+      item.quantity = 0;
+      if (token) {
+        const data = await updateCartItem(item, token);
+        if (data == 400) {
+          router.push('/login');
+          deleteCookie('token');
+        } else if (data == 200) {
+          handleClearCart();
+        }
+      } else {
+        handleClearCart();
+      }
+    });
+  };
+
   if (!cartProducts || cartProducts.length === 0) {
     return (
       <div className="flex flex-col items-center">
@@ -74,7 +94,7 @@ const CartClients = () => {
               label="Clear Cart"
               outline
               small
-              onClick={() => handleClearCart()}
+              onClick={() => clearCarthandler()}
             />
           </div>
           <div>

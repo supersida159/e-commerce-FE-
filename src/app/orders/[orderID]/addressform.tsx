@@ -1,5 +1,5 @@
 'use client';
-import { getOrder, updateOrder } from '@/app/actions/getProducts';
+import { getOrder, updateOrderAPI } from '@/app/actions/getProducts';
 import Heading from '@/app/components/Heading/heading';
 import Input from '@/app/components/inputs/Input';
 import Button from '@/app/components/products/button';
@@ -75,16 +75,17 @@ const AddressForm: React.FC<orderProps> = ({ orderID }) => {
         state: data.State
       },
       customer_name: data.Name,
-      customer_phone: data.PhoneNumber
+      customer_phone: data.PhoneNumber,
+      id: orderID
     };
     const token = getCookie('token');
     if (token !== undefined) {
       const token = getCookie('token');
-      const res = await updateOrder(orderID, token as string, orderaddress);
+      const res = await updateOrderAPI(orderID, token as string, orderaddress);
       console.log('res:', res);
-      if (res == '200') {
-        router.push('/order/payment/' + orderID);
-      } else if (res == '401') {
+      if (res == 200) {
+        router.push('/orders/payment/' + orderID);
+      } else if (res == 401) {
         deleteCookie('token');
         router.push('/login');
       }
@@ -92,7 +93,7 @@ const AddressForm: React.FC<orderProps> = ({ orderID }) => {
       router.push('/login');
     }
     // const url  = "/order/payment" + Resproducts?.data?.id
-    router.push('/order/payment/' + orderID);
+    router.push('/orders/payment/' + orderID);
   };
 
   useEffect(() => {

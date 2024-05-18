@@ -1,18 +1,21 @@
 import { Paging } from '@/app/actions/getProducts';
+import { Cart } from './cart';
 import { Product } from './product';
 
 export interface Order {
   id: string;
+  status?: number;
   created_at?: Date;
   userOrderID?: number;
   customer_name?: string;
-  customer_phone?: string;
+  customer_phone?: number;
   ProductQuantity?: Cartitem[];
   shipping?: ShippingInfo;
   orderTotal?: number;
   notes?: string;
   address?: Address;
   order_cancelled?: boolean;
+  cart?: Cart;
 }
 export interface Cartitem {
   id?: number;
@@ -22,9 +25,9 @@ export interface Cartitem {
   quantity: number;
 }
 export interface ShippingInfo {
-  Method: string;
-  Cost: number;
-  EstimatedDelivery: string; // Adjust the type to match the format of time.Time in your application
+  Method?: string;
+  Cost?: number;
+  EstimatedDelivery: Date; // Adjust the type to match the format of time.Time in your application
   // Add any additional shipping details as needed
 }
 

@@ -1,3 +1,4 @@
+import { getCookie } from 'cookies-next';
 import {
   createContext,
   useCallback,
@@ -40,9 +41,11 @@ export const CartContextProvider = (props: Props) => {
     setCartProducts(cProducts);
   }, []);
 
-  const handleAddProductToCart = useCallback((product: Cartitem) => {
+  const handleAddProductToCart = useCallback(async (product: Cartitem) => {
     setCartProducts((prev) => {
       let updatedCart;
+      const token = getCookie('token');
+
       if (prev) {
         // Check if the product already exists in the cart
         const existingProductIndex = prev.findIndex(
@@ -52,17 +55,19 @@ export const CartContextProvider = (props: Props) => {
           // If the product already exists, update its quantity
           const updatedProduct = {
             ...prev[existingProductIndex],
-            quantity: prev[existingProductIndex].quantity + 1
+            quantity: prev[existingProductIndex].quantity + product.quantity
           };
           updatedCart = [
             ...prev.slice(0, existingProductIndex),
             updatedProduct,
-            ...prev.slice(existingProductIndex + 1)
+            ...prev.slice(existingProductIndex + product.quantity)
           ];
+
           toast.success(`Added quantity to cart`);
         } else {
           // If the product is not in the cart, add it with a quantity of 1
           updatedCart = [...prev, { ...product, quantity: product.quantity }];
+
           toast.success(`Added item to cart`);
         }
       } else {
