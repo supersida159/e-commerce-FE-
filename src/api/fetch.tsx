@@ -3,7 +3,7 @@ import { ReqCreateProduct } from '@/lib/type/product';
 import { ResUploadImageData } from '@/lib/type/user';
 import { deleteCookie, getCookie } from 'cookies-next';
 
-const Domain = 'http://localhost:8080/api/v1';
+const Domain = 'http://167.172.75.249/api/v1';
 export const fetchDataWithValidToken = async (
   endpoint: string,
   method: string,
@@ -61,9 +61,9 @@ export const Login = async (
   email: string,
   password: string,
   endpoint: string
-): Promise<LoginData | undefined> => {
+): Promise<LoginData | undefined | number> => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/${endpoint}`, {
+    const response = await fetch(`http://167.172.75.249/api/v1/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -71,13 +71,12 @@ export const Login = async (
       body: JSON.stringify({ email, password })
     });
 
-    if (!response.ok) {
-      throw new Error(`Login failed with status: ${response.status}`);
+    if (response.status === 200) {
+      const responseData = await response.json();
+      return responseData;
+    } else {
+      return response.status;
     }
-    console.log(' response:', response);
-
-    const responseData = await response.json();
-    return responseData;
   } catch (err) {
     console.log(err);
   }

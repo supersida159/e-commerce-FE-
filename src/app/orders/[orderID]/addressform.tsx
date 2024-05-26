@@ -97,13 +97,11 @@ const AddressForm: React.FC<orderProps> = ({ orderID }) => {
   };
 
   useEffect(() => {
-    if (countdown != 600) {
-      const timer = setInterval(() => {
-        setCountdown((prevCountdown) => Math.max(0, prevCountdown - 1));
-      }, 1000);
+    const timer = setInterval(() => {
+      setCountdown((prevCountdown) => Math.max(0, prevCountdown - 1));
+    }, 1000);
 
-      return () => clearInterval(timer);
-    }
+    return () => clearInterval(timer);
   }, [countdown]);
 
   const minutes = Math.floor(countdown / 60);

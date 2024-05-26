@@ -28,6 +28,7 @@ const ProfileForm = ({ user }: UserProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [editAddresses, setEditAddresses] = useState(false);
   const [defaultaddr, setDefaultaddr] = useState<number>(0);
+  const [err, setErr] = useState<Error | null>(null);
 
   useEffect(() => {
     if (user?.address) {
@@ -114,6 +115,12 @@ const ProfileForm = ({ user }: UserProps) => {
       ) : (
         <Button label="Edit Addresses" onClick={() => setEditAddresses(true)} />
       )} */}
+      <Button
+        label="Change PassWord"
+        onClick={() => router.push('/profile/Password')}
+        disabled={isLoading}
+      />
+
       <Button
         label={isLoading ? 'Loading...' : 'Submit Edit'}
         disabled={isLoading}

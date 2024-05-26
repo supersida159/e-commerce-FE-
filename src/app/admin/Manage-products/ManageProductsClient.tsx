@@ -20,7 +20,7 @@ const ManageProductsClient = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(1); // Default value
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Default value
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -98,6 +98,20 @@ const ManageProductsClient = () => {
           setLoading(false);
           if (res === '200') {
             toast.success('Update success!');
+
+            //fetching product after save
+            const fetchProducts = async () => {
+              try {
+                const res = await getProducts(); // Assuming getProducts is defined
+                setResProducts(res);
+                setLoading(false);
+              } catch (error) {
+                setError(String(error));
+                setLoading(false);
+              }
+            };
+
+            fetchProducts();
           } else {
             toast.error('Update failed!');
           }

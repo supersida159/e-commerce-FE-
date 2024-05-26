@@ -1,10 +1,10 @@
 'use client';
 
-import { getOrders } from '@/app/actions/getProducts';
+import { getOrders, updateOrderAPI } from '@/app/actions/getProducts';
 import Heading from '@/app/components/Heading/heading';
 import ActionButton from '@/app/components/products/ActionButton';
-import { ResListOrders } from '@/lib/type/order';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Order, ResListOrders } from '@/lib/type/order';
+import { DataGrid, GridColDef, GridRowModel } from '@mui/x-data-grid';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -52,13 +52,7 @@ const OrdersClient = () => {
       };
     });
   }
-  const statusOptions = [
-    { value: 0, label: 'Order Cancelled' },
-    { value: 1, label: 'Waiting For Payment' },
-    { value: 2, label: 'Waiting for Shipment' },
-    { value: 3, label: 'Shipped' },
-    { value: 4, label: 'Delivered' }
-  ];
+  const statusOptions = [{ value: 1, label: 'Order Cancelled' }];
   const columns: GridColDef[] = [
     {
       field: 'id',
@@ -104,7 +98,7 @@ const OrdersClient = () => {
       type: 'dateTime',
       headerName: 'Estimated Delivery',
       width: 150,
-      editable: true
+      editable: false
     },
     {
       field: 'status',
@@ -115,13 +109,13 @@ const OrdersClient = () => {
         <div className=" text-center font-bold text-slate-800 ">
           {(() => {
             switch (params.row.status) {
-              case 0:
+              case 1:
                 return (
                   <div className="rounded-lg bg-red-500 p-2">
                     Order Cancelled
                   </div>
                 );
-              case 1:
+              case 2:
                 return (
                   <div
                     className="cursor-pointer rounded-lg bg-yellow-300 p-2"
@@ -130,17 +124,17 @@ const OrdersClient = () => {
                     Cick to Pay
                   </div>
                 );
-              case 2:
+              case 3:
                 return (
                   <div className="rounded-lg bg-blue-500 p-2 p-2">
                     Waiting for Shipment
                   </div>
                 );
-              case 3:
+              case 43:
                 return (
                   <div className="rounded-lg bg-green-300 p-2">Shipped</div>
                 );
-              case 4:
+              case 5:
                 return (
                   <div className="rounded-lg bg-green-800 p-2">Delivered</div>
                 );
@@ -201,6 +195,35 @@ const OrdersClient = () => {
 
   const [editableItemId, setEditableItemId] = useState('');
 
+  const handleProcessRowUpdate = async (
+    newRow: GridRowModel,
+    oldRow: GridRowModel
+  ) => {
+    console.log('newRow', newRow);
+    console.log('oldRow', oldRow);
+    try {
+      const token = getCookie('token');
+      if (typeof token !== 'undefined') {
+        const orderUpdate: Order = {
+          status: newRow.status,
+          id: newRow.id
+        };
+        const res = await updateOrderAPI(newRow.id, token, orderUpdate); // Assuming updateOrderStatus is defined
+        if (res !== 200) {
+          throw new Error('Failed to update order status');
+        }
+        toast.success('Order status updated successfully');
+      } else {
+        throw new Error('Token is undefined');
+      }
+      return newRow;
+    } catch (error) {
+      setError(String(error));
+      toast.error('Failed to update order status');
+      return oldRow; // Return old row if update fails
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[1400px] text-xl">
       {/* Header */}
@@ -218,6 +241,8 @@ const OrdersClient = () => {
           }}
           pageSizeOptions={[5, 10]}
           className="lg:text-md md:text-sm"
+          processRowUpdate={handleProcessRowUpdate}
+          // disableRowSelectionOnClick
         />
       </div>
     </div>

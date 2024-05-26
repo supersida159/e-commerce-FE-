@@ -69,7 +69,7 @@ export const getProducts = async (
   }
 
   const response = await fetch(
-    `http://localhost:8080/api/v1/product/list${queryString ? `?${queryString}` : ''}`,
+    `http://167.172.75.249/api/v1/product/list${queryString ? `?${queryString}` : ''}`,
     {
       method: 'POST',
       headers: {
@@ -88,7 +88,7 @@ export const getProducts = async (
 
 export const getProduct = async (name: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/product/getProduct/${name}`,
+    `http://167.172.75.249/api/v1/product/getProduct/${name}`,
     {
       method: 'GET',
       headers: {
@@ -118,7 +118,7 @@ export const getOrders = async (
   console.log(queryString);
 
   const response = await fetch(
-    `http://localhost:8080/api/v1/order/Private/list${queryString ? `${queryString}` : ''}`,
+    `http://167.172.75.249/api/v1/order/Private/list${queryString ? `${queryString}` : ''}`,
     {
       method: 'GET',
       headers: {
@@ -139,7 +139,7 @@ export const getOrders = async (
 //create an order
 export const CreateNewOrder = async (token: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/order/Private/createOrder`,
+    `http://167.172.75.249/api/v1/order/Private/createOrder`,
     {
       method: 'POST',
       headers: {
@@ -162,7 +162,7 @@ export const updateOrderAPI = async (
   order: Order
 ) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/order/Private/updateOrder/${orderid}`, // Append id to the URL
+    `http://167.172.75.249/api/v1/order/Private/updateOrder/${orderid}`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -179,9 +179,26 @@ export const updateOrderAPI = async (
   }
 };
 
+export const softDeleteOrder = async (orderid: string, token: string) => {
+  const response = await fetch(
+    `http://167.172.75.249/api/v1/order/Private/softDeleteOrder/${orderid}`, // Append id to the URL
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+  if (response.status === 200) {
+    return 200;
+  } else {
+    return response.status;
+  }
+};
 export const updateCartItem = async (product: Cartitem, token: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/cart/Private/updateCart`, // Append id to the URL
+    `http://167.172.75.249/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -196,7 +213,7 @@ export const updateCartItem = async (product: Cartitem, token: string) => {
 
 export const getCart = async (token: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/cart/Private/getCart`, // Append id to the URL
+    `http://167.172.75.249/api/v1/cart/Private/getCart`, // Append id to the URL
     {
       method: 'GET',
       headers: {
@@ -215,7 +232,7 @@ export const getCart = async (token: string) => {
 
 export const getOrder = async (id: string, token: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/order/Private/getOrder/${id}`, // Append id to the URL
+    `http://167.172.75.249/api/v1/order/Private/getOrder/${id}`, // Append id to the URL
     {
       method: 'GET',
       headers: {
@@ -234,7 +251,7 @@ export const getOrder = async (id: string, token: string) => {
 
 export const updateCart = async (products: Cartitem, token: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/cart/Private/updateCart`, // Append id to the URL
+    `http://167.172.75.249/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -250,7 +267,7 @@ export const updateCart = async (products: Cartitem, token: string) => {
 
 export const addProductToCart = async (products: Cartitem, token: string) => {
   const response = await fetch(
-    `http://localhost:8080/api/v1/cart/Private/updateCart`, // Append id to the URL
+    `http://167.172.75.249/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -270,7 +287,7 @@ export const registerAPI = async (
   password: string
 ) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/user/register`, {
+    const response = await fetch(`http://167.172.75.249/api/v1/user/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -298,7 +315,7 @@ export const registerAPI = async (
 export const UpdateProductAPI = async (data: updateProduct, token: string) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/v1/product/Private/updateProduct`,
+      `http://167.172.75.249/api/v1/product/Private/updateProduct`,
       {
         method: 'PUT',
         headers: {
@@ -319,7 +336,7 @@ export const UpdateProductAPI = async (data: updateProduct, token: string) => {
 export const UpdateUserInfor = async (data: any, token: string) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/v1/user/Private/update`,
+      `http://167.172.75.249/api/v1/user/Private/update`,
       {
         method: 'PUT',
         headers: {
@@ -330,7 +347,9 @@ export const UpdateUserInfor = async (data: any, token: string) => {
       }
     );
     if (response.status === 200) {
-      return '200';
+      return 200;
+    } else {
+      return response.status;
     }
   } catch (error) {
     return error;

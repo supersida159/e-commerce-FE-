@@ -2,7 +2,6 @@ import CartProvider from '@/lib/provider/CartProvide';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
-import ChatBox from './components/chat/ChatBox';
 import Footer from './components/footer/Footer';
 import NavBar from './components/nav/NavBar';
 import './globals.css';
@@ -31,7 +30,7 @@ export default function RootLayout({
           }}
         />
         <CartProvider>
-          <ChatBox messages={[]} />
+          {/* <ChatBox messages={[]} /> */}
           <div className="flex min-h-screen flex-col">
             <NavBar />
             <main className="relative flex-grow">{children}</main>

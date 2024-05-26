@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 import { AiOutlineGoogle } from 'react-icons/ai';
 import { getCart, updateCartItem } from '../actions/getProducts';
 import Heading from '../components/Heading/heading';
@@ -17,8 +18,9 @@ import Button from '../components/products/button';
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [err, setErr] = useState<Error | null>(null);
   const router = useRouter();
-  const { handleSetUser: hanldeSetUser } = useUser();
+  const { handleSetUser } = useUser();
   const { handleAddProductToCart, cartProducts, handleSetCartProducts } =
     useCart();
 
@@ -32,6 +34,7 @@ const LoginForm = () => {
       password: ''
     }
   });
+
   interface LoginData {
     data: {
       access_token: {
@@ -46,34 +49,55 @@ const LoginForm = () => {
       };
     };
   }
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    console.log(data);
-    console.log(data.email, data.password, 'user/login');
-    const resData = await Login(data.email, data.password, 'user/login');
-    const accestoken = resData?.data.access_token.access_token;
-    if (accestoken) {
-      console.log(resData);
-      setCookie('token', accestoken);
-      const resUser = await getUserInfor();
-      if (resUser) {
-        hanldeSetUser(resUser.data as User);
-        if (cartProducts) {
-          for (const product of cartProducts) {
-            await updateCartItem(product, accestoken);
+
+    toast
+      .promise(
+        Login(data.email, data.password, 'user/login').then(async (resData) => {
+          if (typeof resData === 'number') {
+            throw new Error('Wrong email or password');
+          } else if (!resData) {
+            throw new Error('Fetching data error');
           }
-        }
-        const res = await getCart(accestoken);
-        if (res) {
-          handleSetCartProducts(res.items);
-          localStorage.setItem('eShopCartItems', JSON.stringify(res.items));
-        }
-      }
+          const accessToken = resData?.data.access_token.access_token;
 
-      router.push('/');
-    }
-
-    setIsLoading(false);
+          if (accessToken) {
+            setErr(null);
+            setCookie('token', accessToken);
+            const resUser = await getUserInfor();
+            if (resUser) {
+              handleSetUser(resUser.data as User);
+              if (cartProducts) {
+                for (const product of cartProducts) {
+                  await updateCartItem(product, accessToken);
+                }
+              }
+              const res = await getCart(accessToken);
+              if (res) {
+                handleSetCartProducts(res.items);
+                localStorage.setItem(
+                  'eShopCartItems',
+                  JSON.stringify(res.items)
+                );
+              }
+            }
+            router.push('/');
+          }
+        }),
+        {
+          loading: 'Logging in...',
+          success: 'Logged in successfully!',
+          error: 'Could not log in.'
+        }
+      )
+      .catch((error) => {
+        setErr(new Error(error.message));
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -83,10 +107,17 @@ const LoginForm = () => {
         outline
         label="Login with Google"
         icon={AiOutlineGoogle}
-        onClick={() => {}}
+        onClick={() => {
+          toast.error('Login with Google account is under construction');
+        }}
       />
       <hr className="h-px w-full bg-slate-300" />
-
+      <label
+        htmlFor=""
+        className={`text-center text-red-500 ${err ? '' : 'hidden'}`}
+      >
+        {err?.message}
+      </label>
       <Input
         id="email"
         label="Email"

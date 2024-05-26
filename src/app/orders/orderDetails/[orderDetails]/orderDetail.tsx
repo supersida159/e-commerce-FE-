@@ -34,11 +34,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderID }) => {
   }, []);
 
   const statusOptions = [
-    { value: 0, text: 'Order Cancelled', colorClass: 'text-red-500' },
-    { value: 1, text: 'Waiting For Payment', colorClass: 'text-yellow-300' },
-    { value: 2, text: 'Waiting for Shipment', colorClass: 'p-2 text-blue-500' },
-    { value: 3, text: 'Shipped', colorClass: 'text-green-300' },
-    { value: 4, text: 'Delivered', colorClass: 'text-green-800' }
+    { value: 1, text: 'Order Cancelled', colorClass: 'text-red-500' },
+    { value: 2, text: 'Waiting For Payment', colorClass: 'text-yellow-300' },
+    { value: 3, text: 'Waiting for Shipment', colorClass: 'p-2 text-blue-500' },
+    { value: 4, text: 'Shipped', colorClass: 'text-green-300' },
+    { value: 5, text: 'Delivered', colorClass: 'text-green-800' }
   ];
   const getStatusText = (statusValue: number) => {
     const statusOption = statusOptions.find(

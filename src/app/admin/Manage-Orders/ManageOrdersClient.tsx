@@ -46,11 +46,11 @@ const ManageOrdersClient = () => {
     });
   }
   const statusOptions = [
-    { value: 0, label: 'Order Cancelled' },
-    { value: 1, label: 'Waiting For Payment' },
-    { value: 2, label: 'Waiting for Shipment' },
-    { value: 3, label: 'Shipped' },
-    { value: 4, label: 'Delivered' }
+    { value: 1, label: 'Order Cancelled' },
+    { value: 2, label: 'Waiting For Payment' },
+    { value: 3, label: 'Waiting for Shipment' },
+    { value: 4, label: 'Shipped' },
+    { value: 5, label: 'Delivered' }
   ];
   const columns: GridColDef[] = [
     {
@@ -109,29 +109,29 @@ const ManageOrdersClient = () => {
         <div className="text-center font-bold text-slate-800 ">
           {(() => {
             switch (params.row.status) {
-              case 0:
+              case 1:
                 return (
                   <div className="rounded-lg bg-red-500 p-2">
                     Order Cancelled
                   </div>
                 );
-              case 1:
+              case 2:
                 return (
                   <div className="rounded-lg bg-yellow-300 p-2">
                     Waiting For Payment
                   </div>
                 );
-              case 2:
+              case 3:
                 return (
                   <div className="rounded-lg bg-blue-500 p-2 p-2">
                     Waiting for Shipment
                   </div>
                 );
-              case 3:
+              case 4:
                 return (
                   <div className="rounded-lg bg-green-300 p-2">Shipped</div>
                 );
-              case 4:
+              case 5:
                 return (
                   <div className="rounded-lg bg-green-800 p-2">Delivered</div>
                 );
@@ -199,7 +199,7 @@ const ManageOrdersClient = () => {
     note: string;
   }
 
-  const handleEditRow = (newrow: editRow) => {
+  const handleEditRow = async (newrow: editRow) => {
     console.log('Row:', newrow.shipping);
     // Update order
 
@@ -224,8 +224,6 @@ const ManageOrdersClient = () => {
           setLoading(false);
           if (res === 200) {
             toast.success('Update success!');
-
-            window.location.reload();
           } else {
             toast.error('Update failed!');
           }
@@ -236,7 +234,7 @@ const ManageOrdersClient = () => {
       }
     }; // Closing brace for updateOrder function
 
-    updateOrder(orderupdate); // Calling updateOrder with orderupdate parameter
+    await updateOrder(orderupdate); // Calling updateOrder with orderupdate parameter
     return newrow;
   };
 
@@ -261,6 +259,7 @@ const ManageOrdersClient = () => {
           // onRowEditCommit={(paramid) => handleEditRow(paramid)}
           processRowUpdate={(newRow, oldRow) => {
             handleEditRow(newRow);
+            return newRow;
           }}
           onProcessRowUpdateError={(error) => {
             console.log(error);

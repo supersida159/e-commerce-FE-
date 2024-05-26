@@ -13,6 +13,7 @@ interface InputProps {
   isNumber?: boolean;
   placeholder?: any;
   value?: any;
+
   onchange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
