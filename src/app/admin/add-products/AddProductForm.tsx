@@ -11,7 +11,7 @@ import Button from '@/app/components/products/button';
 import { ReqCreateProduct } from '@/lib/type/product';
 import { Imagetype } from '@/lib/type/user';
 import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { categories } from '../../../../utils/Categories';
@@ -193,23 +193,25 @@ const AddProductForm = () => {
         <div className="w-full font-medium">
           <div className="mb-2 font-semibold"></div>
           <div className="max-h[50vh] grid grid-cols-2 gap-3 overflow-y-auto md:grid-cols-3">
-            {categories.map((item) => {
-              if (item.label === 'All') {
-                return null;
-              }
-              return (
-                <div key={item.label} className="col-span">
-                  <CategoryInput
-                    label={item.label}
-                    icon={item.icon}
-                    onClick={(category) => {
-                      setCustomValue('category', category);
-                    }}
-                    selected={category === item.label}
-                  />
-                </div>
-              );
-            })}
+            <Suspense>
+              {categories.map((item) => {
+                if (item.label === 'All') {
+                  return null;
+                }
+                return (
+                  <div key={item.label} className="col-span">
+                    <CategoryInput
+                      label={item.label}
+                      icon={item.icon}
+                      onClick={(category) => {
+                        setCustomValue('category', category);
+                      }}
+                      selected={category === item.label}
+                    />
+                  </div>
+                );
+              })}
+            </Suspense>
           </div>
 
           {category === undefined ? null : (

@@ -1,5 +1,6 @@
 import { Redressed } from 'next/font/google';
 import Link from 'next/link';
+import { Suspense } from 'react';
 import CartCount from './CartCount';
 import Categories from './Categories';
 import Container from './Container';
@@ -45,7 +46,9 @@ const NavBar = () => {
           </div>
         </Container>
       </div>
-      <Categories />
+      <Suspense>
+        <Categories />
+      </Suspense>
     </div>
   );
 };
