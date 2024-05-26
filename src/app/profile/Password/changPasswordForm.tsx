@@ -48,38 +48,46 @@ const ChangePasswordForm = () => {
     setIsLoading(true);
     setErr(null);
 
-    toast
-      .promise(
-        UpdateUserInfor(data, token).then((resData) => {
-          if (resData.status !== 200) {
-            setErr(new Error('Wrong password or password are the same as old'));
-            throw new Error('Wrong email or password');
+    if (!token) {
+      setErr(new Error('your must login first'));
+      toast.error('your must login first');
+      router.push('/login');
+    } else {
+      toast
+        .promise(
+          UpdateUserInfor(data, token).then((resData) => {
+            if (resData !== 200) {
+              setErr(
+                new Error('Wrong password or password are the same as old')
+              );
+              throw new Error('Wrong email or password');
+            }
+            return resData;
+          }),
+          {
+            loading: 'Saving...',
+            success: 'Settings saved!',
+            error: 'Could not save.'
           }
-          return resData;
-        }),
-        {
-          loading: 'Saving...',
-          success: 'Settings saved!',
-          error: 'Could not save.'
-        }
-      )
-      .then(() => {
-        router.push('/login');
-      })
-      .catch((error) => {
-        setErr(new Error(error.message));
-      })
-      .finally(() => {
-        setIsLoading(false);
-        reset();
-      });
+        )
+        .then(() => {
+          router.push('/login');
+        })
+        .catch((error) => {
+          setErr(new Error(error.message));
+        })
+        .finally(() => {
+          setIsLoading(false);
+          reset();
+        });
+    }
   };
 
   return (
     <>
       {token ? (
         <>
-          <Heading title="Change Your Password" />
+          <Heading titlle="Change Your Password" />
           <hr className="h-px w-full bg-slate-300" />
           {err && (
             <label className="text-center text-red-500">{err.message}</label>
