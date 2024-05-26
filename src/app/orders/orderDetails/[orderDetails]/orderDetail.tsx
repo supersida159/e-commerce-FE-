@@ -4,7 +4,7 @@ import CartItem from '@/app/cart/CartItem';
 import Heading from '@/app/components/Heading/heading';
 import { Order } from '@/lib/type/order';
 import { getCookie } from 'cookies-next';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import formatPrice from '../../../../../utils/formatPrice';
 
@@ -14,9 +14,9 @@ interface OrderDetailsProps {
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ orderID }) => {
   const [orderValue, setOrderValue] = useState<Order | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
+  // const router = useRouter();
   // Function to format the placeholder date
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderID }) => {
       }
     };
     fetchOrder();
-  }, []);
+  }, [orderID]);
 
   const statusOptions = [
     { value: 1, text: 'Order Cancelled', colorClass: 'text-red-500' },
