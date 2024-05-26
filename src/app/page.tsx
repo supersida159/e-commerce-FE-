@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 import { Product } from '@/lib/type/product';
 import { useSearchParams } from 'next/navigation';
@@ -74,7 +75,8 @@ export default function Home() {
             className="flex h-[50vh] w-full items-center justify-center font-mono 
          text-2xl md:text-3xl"
           >
-            Oops! No product found. Click 'All' to see all products
+            Oops! No product found. Click `&apos;`All`&apos;` to see all
+            products
           </div>
         )}
       </Container>
