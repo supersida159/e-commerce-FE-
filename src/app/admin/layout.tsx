@@ -1,5 +1,5 @@
+import AdminNav from '@/app/components/admin/AdminNav';
 import ChatwootWidget from '@/app/components/chat/ChatBox';
-import AdminNav from '../components/admin/AdminNav';
 import CheckRole from './CheckRole';
 
 export const metadata = {
