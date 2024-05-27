@@ -2,10 +2,10 @@
 const nextConfig = {
   images: {
     // domains: ['m.media-amazon.com', 'food-delivery.s3.amazonaws.com',]
-    domains: ['*'],
+    domains: ['s3.ap-southeast-1.amazonaws.com'],
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: 'http',
         hostname: '**',
         port: '',
         pathname: '/**'
