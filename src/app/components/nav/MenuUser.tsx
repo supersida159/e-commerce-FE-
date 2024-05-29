@@ -3,6 +3,7 @@
 import { useUser } from '@/lib/hooks/useUser';
 import { Avatar } from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { AiOutlineDown } from 'react-icons/ai';
 import Backdrop from './BackDrop';
@@ -13,6 +14,7 @@ const MenuUser = () => {
     setIsOpen((prev) => !prev);
   }, []);
   const { user, handleSetUser } = useUser();
+  const router = useRouter();
 
   return (
     <>
@@ -74,7 +76,7 @@ const MenuUser = () => {
                   toggle();
                   localStorage.clear();
                   handleSetUser(null);
-                  window.location.href = '/login';
+                  router.push('/login');
                 }}
               >
                 LogOut
