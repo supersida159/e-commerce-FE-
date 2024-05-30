@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_NAME=e-commerce-fe
-DEPLOY_CONNECTION=root@167.172.75.249
+DEPLOY_CONNECTION=root@139.59.255.226
 
 echo "Installing npm packages..."
 npm install
