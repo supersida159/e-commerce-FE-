@@ -1,5 +1,4 @@
 'use client';
-import { Container } from '@mui/material';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -8,6 +7,7 @@ import {
   MdFormatListBulletedAdd,
   MdLibraryAdd
 } from 'react-icons/md';
+import Container from '../nav/Container';
 import AdminNavItem from './AdminNavItem';
 
 const AdminNav = () => {
@@ -15,7 +15,7 @@ const AdminNav = () => {
   return (
     <div className="top-20 w-full border-b-[1px] pt-4 shadow-sm">
       <Container>
-        <div className="flex flex-row flex-nowrap items-center justify-between gap-8 overflow-x-auto md:justify-center md:gap-12">
+        <div className="flex flex-row flex-nowrap items-center justify-between gap-2 overflow-x-auto md:justify-center md:gap-12">
           <Link href="/admin">
             <AdminNavItem
               selected={pathname === '/admin'}

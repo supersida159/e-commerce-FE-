@@ -33,7 +33,7 @@ export default function RootLayout({
           {/* <ChatBox messages={[]} /> */}
           <div className="flex min-h-screen flex-col">
             <NavBar />
-            <main className="relative flex-grow">{children}</main>
+            <main className=" flex-grow">{children}</main>
             <Footer />
           </div>
         </CartProvider>

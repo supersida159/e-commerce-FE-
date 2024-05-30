@@ -109,7 +109,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderID }) => {
   return (
     <>
       {orderValue ? (
-        <div className="flex flex-grow flex-col items-center justify-center">
+        <div className="flex  flex-col items-center justify-center">
           <Heading titlle="OrderDetails" center />
 
           <div className="w-min-[600px] w-max-[1000px] flex flex-col items-center justify-center rounded-lg border border-slate-700 p-4">

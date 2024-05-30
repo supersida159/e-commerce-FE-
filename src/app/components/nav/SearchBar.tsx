@@ -47,11 +47,11 @@ const SearchBar = () => {
         autoComplete="off"
         type="text"
         placeholder="Explore E-Shop"
-        className="w-80 rounded-l-md border border-gray-300 p-2 focus:border-[0.5px] focus:border-slate-500 focus:outline-none"
+        className="w-20 rounded-l-md border border-gray-300 p-2 focus:border-[0.5px] focus:border-slate-500 focus:outline-none md:w-80 lg:w-96"
       />
       <button
         onClick={handleSubmit(onSubmit)}
-        className="rounded-r-md border border-slate-700 bg-slate-700 p-2 text-white hover:opacity-80"
+        className="rounded-r-md border border-slate-700 bg-slate-700 p-2 text-center text-white hover:opacity-80 sm:w-20 sm:text-base"
       >
         Search
       </button>

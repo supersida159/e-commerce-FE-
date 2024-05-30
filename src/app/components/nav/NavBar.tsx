@@ -17,6 +17,7 @@ const NavBar = () => {
         top-0
         z-30
         w-full
+        flex-nowrap
         bg-slate-200
         shadow-sm
         "
@@ -27,19 +28,21 @@ const NavBar = () => {
             className="
                     md-gap-0
                     flex
+                    w-full
                     items-center
                     justify-between
-                    gap-3
+                    sm:gap-1
+                    md:gap-3
                     "
           >
             <Link
               href="/"
-              className={`${redressed.className} text-2xl font-bold`}
+              className={`${redressed.className} font-bold sm:ml-2 sm:text-base md:ml-4 md:text-2xl`}
             >
               E-Shop
             </Link>
             <SearchBar />
-            <div className=" flex items-center gap-8 md:gap-12">
+            <div className=" flex items-center  gap-2 md:gap-8 lg:gap-12">
               <CartCount />
               <div>
                 <MenuUser />
