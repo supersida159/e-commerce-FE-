@@ -69,7 +69,7 @@ export const getProducts = async (
   }
 
   const response = await fetch(
-    `http://167.172.75.249/api/v1/product/list${queryString ? `?${queryString}` : ''}`,
+    `https://backend.tungdev1996.online/api/v1/product/list${queryString ? `?${queryString}` : ''}`,
     {
       method: 'POST',
       headers: {
@@ -88,7 +88,7 @@ export const getProducts = async (
 
 export const getProduct = async (name: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/product/getProduct/${name}`,
+    `https://backend.tungdev1996.online/api/v1/product/getProduct/${name}`,
     {
       method: 'GET',
       headers: {
@@ -118,7 +118,7 @@ export const getOrders = async (
   console.log(queryString);
 
   const response = await fetch(
-    `http://167.172.75.249/api/v1/order/Private/list${queryString ? `${queryString}` : ''}`,
+    `https://backend.tungdev1996.online/api/v1/order/Private/list${queryString ? `${queryString}` : ''}`,
     {
       method: 'GET',
       headers: {
@@ -139,7 +139,7 @@ export const getOrders = async (
 //create an order
 export const CreateNewOrder = async (token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/order/Private/createOrder`,
+    `https://backend.tungdev1996.online/api/v1/order/Private/createOrder`,
     {
       method: 'POST',
       headers: {
@@ -162,7 +162,7 @@ export const updateOrderAPI = async (
   order: Order
 ) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/order/Private/updateOrder/${orderid}`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/order/Private/updateOrder/${orderid}`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -181,7 +181,7 @@ export const updateOrderAPI = async (
 
 export const softDeleteOrder = async (orderid: string, token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/order/Private/softDeleteOrder/${orderid}`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/order/Private/softDeleteOrder/${orderid}`, // Append id to the URL
     {
       method: 'DELETE',
       headers: {
@@ -198,7 +198,7 @@ export const softDeleteOrder = async (orderid: string, token: string) => {
 };
 export const updateCartItem = async (product: Cartitem, token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/cart/Private/updateCart`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -213,7 +213,7 @@ export const updateCartItem = async (product: Cartitem, token: string) => {
 
 export const getCart = async (token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/cart/Private/getCart`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/cart/Private/getCart`, // Append id to the URL
     {
       method: 'GET',
       headers: {
@@ -232,7 +232,7 @@ export const getCart = async (token: string) => {
 
 export const getOrder = async (id: string, token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/order/Private/getOrder/${id}`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/order/Private/getOrder/${id}`, // Append id to the URL
     {
       method: 'GET',
       headers: {
@@ -251,7 +251,7 @@ export const getOrder = async (id: string, token: string) => {
 
 export const updateCart = async (products: Cartitem, token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/cart/Private/updateCart`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -267,7 +267,7 @@ export const updateCart = async (products: Cartitem, token: string) => {
 
 export const addProductToCart = async (products: Cartitem, token: string) => {
   const response = await fetch(
-    `http://167.172.75.249/api/v1/cart/Private/updateCart`, // Append id to the URL
+    `https://backend.tungdev1996.online/api/v1/cart/Private/updateCart`, // Append id to the URL
     {
       method: 'PUT',
       headers: {
@@ -287,13 +287,16 @@ export const registerAPI = async (
   password: string
 ) => {
   try {
-    const response = await fetch(`http://167.172.75.249/api/v1/user/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, email, password })
-    });
+    const response = await fetch(
+      `https://backend.tungdev1996.online/api/v1/user/register`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+      }
+    );
 
     console.log('Json:', JSON.stringify({ name, email, password }));
 
@@ -315,7 +318,7 @@ export const registerAPI = async (
 export const UpdateProductAPI = async (data: updateProduct, token: string) => {
   try {
     const response = await fetch(
-      `http://167.172.75.249/api/v1/product/Private/updateProduct`,
+      `https://backend.tungdev1996.online/api/v1/product/Private/updateProduct`,
       {
         method: 'PUT',
         headers: {
@@ -336,7 +339,7 @@ export const UpdateProductAPI = async (data: updateProduct, token: string) => {
 export const UpdateUserInfor = async (data: any, token: string) => {
   try {
     const response = await fetch(
-      `http://167.172.75.249/api/v1/user/Private/update`,
+      `https://backend.tungdev1996.online/api/v1/user/Private/update`,
       {
         method: 'PUT',
         headers: {

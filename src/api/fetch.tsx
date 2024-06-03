@@ -3,7 +3,7 @@ import { ReqCreateProduct } from '@/lib/type/product';
 import { ResUploadImageData } from '@/lib/type/user';
 import { deleteCookie, getCookie } from 'cookies-next';
 
-const Domain = 'http://167.172.75.249/api/v1';
+const Domain = 'https://backend.tungdev1996.online/api/v1';
 export const fetchDataWithValidToken = async (
   endpoint: string,
   method: string,
@@ -63,13 +63,16 @@ export const Login = async (
   endpoint: string
 ): Promise<LoginData | undefined | number> => {
   try {
-    const response = await fetch(`http://167.172.75.249/api/v1/${endpoint}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    });
+    const response = await fetch(
+      `https://backend.tungdev1996.online/api/v1/${endpoint}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      }
+    );
 
     if (response.status === 200) {
       const responseData = await response.json();

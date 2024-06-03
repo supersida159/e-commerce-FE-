@@ -22,4 +22,4 @@ ssh -o StrictHostKeyChecking=no ${DEPLOY_CONNECTION} 'bash -s' < ./src/deploy/st
 echo "Cleaning up local tar file..."
 rm -f ./${APP_NAME}.tar
 
-echo "Deployment complete."
+echo "Deployment complete." 
